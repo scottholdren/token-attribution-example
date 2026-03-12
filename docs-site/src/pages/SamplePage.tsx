@@ -10,7 +10,7 @@ export function SamplePage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900">Sample Data</h1>
         <p className="mt-2 text-slate-500">
-          15 realistic commits from a shopping cart feature - built with Claude Code over two weeks.
+          15 realistic commits from a shopping cart feature, built with Claude Code over two weeks.
         </p>
       </div>
       <Dashboard entries={entries} />
