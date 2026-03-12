@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /mnt/c/dev/token-attribution-example/.claude/hooks/stop_hook.py"
+          }
+        ]
+      }
+    ]
+  }
+}

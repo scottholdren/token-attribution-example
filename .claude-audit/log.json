@@ -1,0 +1,22 @@
+[
+  {
+    "commit": "cb3f8bac4c98fffcdd87b8d714d07f4b05b93c2b",
+    "timestamp": "2026-03-12T10:33:47-04:00",
+    "message": "fix: use correct /mnt/c path in stop hook settings",
+    "author": "Scott Holdren",
+    "files_changed": [],
+    "claude": {
+      "session_id": "989a570c-21b5-4603-9872-e3297f571a6d",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 479,
+        "output": 2680,
+        "cache_creation": 21859,
+        "cache_read": 299774
+      },
+      "cost_usd": 0.21354,
+      "session_timestamp": "2026-03-12T14:33:32.988074+00:00"
+    }
+  }
+]
