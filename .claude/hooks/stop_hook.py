@@ -113,19 +113,44 @@ def main():
     tmp_path = Path(f"/tmp/claude-audit-{session_id}-{response_id}.json")
     tmp_path.write_text(json.dumps(payload, indent=2))
 
-    # Amend the most recent commit to include these tokens.
-    # This ensures the commit that triggered this session captures its own
-    # cost, even when Claude ran the commit mid-response.
+    # If the audit log already has an entry for this session, update it in
+    # place and create a new audit commit (never --amend, to avoid push
+    # conflicts). If no entry exists yet, leave the temp file for the
+    # post-commit hook to pick up on the next commit.
     try:
         repo_root = subprocess.run(
             ["git", "rev-parse", "--show-toplevel"],
             capture_output=True, text=True, check=True,
         ).stdout.strip()
-        post_commit = Path(repo_root) / ".git" / "hooks" / "post-commit"
-        if post_commit.exists():
-            subprocess.run(["python3", str(post_commit)], cwd=repo_root, check=False)
-    except (subprocess.CalledProcessError, OSError):
-        pass  # not in a git repo, or hook missing — skip silently
+
+        audit_log = Path(repo_root) / ".claude-audit" / "log.json"
+        if audit_log.exists():
+            entries = json.loads(audit_log.read_text())
+            for entry in reversed(entries):
+                if entry.get("claude", {}).get("session_id") == session_id:
+                    t = entry["claude"]["tokens"]
+                    t["input"]         += payload["tokens"]["input"]
+                    t["output"]        += payload["tokens"]["output"]
+                    t["cache_creation"] += payload["tokens"]["cache_creation"]
+                    t["cache_read"]    += payload["tokens"]["cache_read"]
+                    entry["claude"]["cost_usd"] = round(
+                        (t["input"]          / 1_000_000) * 3.00 +
+                        (t["output"]         / 1_000_000) * 15.00 +
+                        (t["cache_read"]     / 1_000_000) * 0.30 +
+                        (t["cache_creation"] / 1_000_000) * 3.75,
+                        6,
+                    )
+                    audit_log.write_text(json.dumps(entries, indent=2))
+                    subprocess.run(["git", "add", str(audit_log)], cwd=repo_root, check=False)
+                    subprocess.run(
+                        ["git", "commit", "--no-verify", "-m",
+                         f"audit: update token attribution for {entry['commit'][:7]}"],
+                        cwd=repo_root, check=False,
+                    )
+                    tmp_path.rename(tmp_path.with_suffix(".done"))
+                    break
+    except (subprocess.CalledProcessError, OSError, json.JSONDecodeError):
+        pass  # not in a git repo, log missing/corrupt, or hook error - skip silently
 
 
 if __name__ == "__main__":
