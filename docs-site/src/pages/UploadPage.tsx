@@ -46,6 +46,16 @@ export function UploadPage() {
       {!entries && (
         <div className="mb-6">
           <DropZone onData={handleData} onError={handleError} />
+          <p className="mt-3 text-center text-sm text-slate-400">
+            Don't have a log yet?{' '}
+            <a
+              href="https://raw.githubusercontent.com/scottholdren/token-attribution-example/main/.claude-audit/log.json"
+              download="log.json"
+              className="text-indigo-500 hover:text-indigo-700 hover:underline"
+            >
+              Download this project's log
+            </a>
+          </p>
           {error && (
             <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
               <strong>Error:</strong> {error}

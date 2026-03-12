@@ -218,5 +218,49 @@
       "cost_usd": 0.032079,
       "session_timestamp": "2026-03-12T15:28:27.956903+00:00"
     }
+  },
+  {
+    "commit": "612fb2b65f135ea0642f3cfb8b3495a7ea30a5e5",
+    "timestamp": "2026-03-12T11:43:26-04:00",
+    "message": "feat: add download link for this project's log on upload page",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "docs-site/src/pages/UploadPage.tsx"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 10,
+        "output": 129,
+        "cache_creation": 337,
+        "cache_read": 72848
+      },
+      "cost_usd": 0.025083,
+      "session_timestamp": "2026-03-12T15:30:08.795706+00:00"
+    }
+  },
+  {
+    "commit": "612fb2b65f135ea0642f3cfb8b3495a7ea30a5e5",
+    "timestamp": "2026-03-12T11:43:26-04:00",
+    "message": "feat: add download link for this project's log on upload page",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "docs-site/src/pages/UploadPage.tsx"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 1,
+        "output": 177,
+        "cache_creation": 1450,
+        "cache_read": 71398
+      },
+      "cost_usd": 0.029515,
+      "session_timestamp": "2026-03-12T15:29:48.647745+00:00"
+    }
   }
 ]
