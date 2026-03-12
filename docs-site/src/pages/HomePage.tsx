@@ -27,10 +27,12 @@ const STOP_HOOK_PY = `#!/usr/bin/env python3
 Claude Code Stop hook.
 Reads session data from stdin, parses the transcript JSONL,
 sums token usage for all assistant responses not yet written to a temp file,
-and writes the result to a temp file for the post-commit hook.
+writes the result to a temp file, then amends the most recent commit
+so the commit that triggered this session captures its own cost.
 """
 
 import json
+import subprocess
 import sys
 from pathlib import Path
 from datetime import datetime, timezone
@@ -125,6 +127,20 @@ def main():
 
     tmp_path = Path(f"/tmp/claude-audit-{session_id}-{response_id}.json")
     tmp_path.write_text(json.dumps(payload, indent=2))
+
+    # Amend the most recent commit to include these tokens.
+    # This ensures the commit that triggered this session captures its own
+    # cost, even when Claude ran the commit mid-response.
+    try:
+        repo_root = subprocess.run(
+            ["git", "rev-parse", "--show-toplevel"],
+            capture_output=True, text=True, check=True,
+        ).stdout.strip()
+        post_commit = Path(repo_root) / ".git" / "hooks" / "post-commit"
+        if post_commit.exists():
+            subprocess.run(["python3", str(post_commit)], cwd=repo_root, check=False)
+    except (subprocess.CalledProcessError, OSError):
+        pass  # not in a git repo, or hook missing - skip silently
 
 
 if __name__ == "__main__":
@@ -265,17 +281,17 @@ export function HomePage({ setPage }: HomePageProps) {
             {
               step: '1',
               title: 'Stop hook fires',
-              desc: 'When Claude Code ends a session, the Stop hook reads the transcript JSONL and sums token usage for all responses not yet written to a temp file - so multiple commits in one session each get only their own work.',
+              desc: 'When Claude Code finishes a response, the Stop hook sums token usage for all responses not yet written to a temp file and writes a JSON payload to /tmp.',
             },
             {
               step: '2',
-              title: 'Temp file written',
-              desc: 'The hook writes a JSON payload to /tmp/claude-audit-<session>-<response>.json containing tokens, cost, model, and branch.',
+              title: 'Most recent commit amended',
+              desc: 'The Stop hook immediately calls the post-commit script, which appends the token data to .claude-audit/log.json and amends the most recent commit to include it.',
             },
             {
               step: '3',
-              title: 'post-commit picks it up',
-              desc: 'On the next git commit, the post-commit hook finds recent temp files, merges them with commit metadata, appends to .claude-audit/log.json, and amends the commit.',
+              title: 'post-commit as a fallback',
+              desc: 'The post-commit hook also runs on every git commit, picking up any temp files that exist at that moment - ensuring nothing is missed if commits are run manually.',
             },
           ].map(({ step, title, desc }) => (
             <div key={step} className="rounded-xl border border-slate-200 bg-white p-5">
