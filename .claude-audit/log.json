@@ -18,5 +18,27 @@
       "cost_usd": 0.21354,
       "session_timestamp": "2026-03-12T14:33:32.988074+00:00"
     }
+  },
+  {
+    "commit": "aefd1bf0f1fad40f1eb9861266ab51b65c37e4a2",
+    "timestamp": "2026-03-12T10:35:55-04:00",
+    "message": "test: add hello.txt to verify audit flow",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "hello.txt"
+    ],
+    "claude": {
+      "session_id": "989a570c-21b5-4603-9872-e3297f571a6d",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 493,
+        "output": 4157,
+        "cache_creation": 52913,
+        "cache_read": 419392
+      },
+      "cost_usd": 0.388075,
+      "session_timestamp": "2026-03-12T14:35:47.280656+00:00"
+    }
   }
 ]
