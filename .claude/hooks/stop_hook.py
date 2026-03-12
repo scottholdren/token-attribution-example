@@ -1,33 +1,41 @@
 #!/usr/bin/env python3
 """
 Claude Code Stop hook.
-Reads session data from stdin, parses the transcript JSONL,
-sums token usage for all assistant responses not yet written to a temp file,
-and writes the result to a temp file for the post-commit hook.
+At the end of each response, sums all transcript responses not yet counted,
+then updates or creates a log entry for the current feature commit and
+creates a new audit commit. No temp files — the log is the source of truth.
 """
 
 import json
 import subprocess
 import sys
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 
 
-def unlogged_tokens(transcript_path: str, session_id: str) -> dict:
-    fields = ["input_tokens", "output_tokens", "cache_creation_input_tokens", "cache_read_input_tokens"]
-    totals = {f: 0 for f in fields}
+COST_PER_M = {
+    "input": 3.00,
+    "output": 15.00,
+    "cache_read": 0.30,
+    "cache_creation": 3.75,
+}
 
-    # Build the set of response UUIDs already written to a temp file
-    logged_uuids: set[str] = set()
-    prefix = f"claude-audit-{session_id}-"
-    for suffix in ("*.json", "*.done"):
-        for path in Path("/tmp").glob(f"{prefix}{suffix}"):
-            logged_uuids.add(path.stem[len(prefix):])
 
-    # Collect all assistant responses from the transcript in order
-    responses: list[dict] = []
+def compute_cost(tokens: dict) -> float:
+    return round(
+        (tokens["input"]          / 1_000_000) * COST_PER_M["input"] +
+        (tokens["output"]         / 1_000_000) * COST_PER_M["output"] +
+        (tokens["cache_read"]     / 1_000_000) * COST_PER_M["cache_read"] +
+        (tokens["cache_creation"] / 1_000_000) * COST_PER_M["cache_creation"],
+        6,
+    )
+
+
+def read_transcript(path: str) -> list[dict]:
+    """Return all assistant messages with usage data, in transcript order."""
+    responses = []
     try:
-        with open(transcript_path) as f:
+        with open(path) as f:
             for line in f:
                 line = line.strip()
                 if not line:
@@ -40,29 +48,46 @@ def unlogged_tokens(transcript_path: str, session_id: str) -> dict:
                     responses.append(obj)
     except FileNotFoundError:
         pass
+    return responses
 
-    # Find the high-water mark: the last response already logged.
-    # Only sum responses that appear after it in the transcript.
-    last_logged_idx = -1
-    for i, obj in enumerate(responses):
-        if obj.get("uuid") in logged_uuids:
-            last_logged_idx = i
 
-    last_obj = None
-    for obj in responses[last_logged_idx + 1:]:
-        usage = obj["message"]["usage"]
-        for f in fields:
-            totals[f] += usage.get(f) or 0
-        last_obj = obj
+def sum_tokens(responses: list[dict]) -> dict:
+    totals = {"input": 0, "output": 0, "cache_creation": 0, "cache_read": 0}
+    for obj in responses:
+        u = obj["message"]["usage"]
+        totals["input"]          += u.get("input_tokens") or 0
+        totals["output"]         += u.get("output_tokens") or 0
+        totals["cache_creation"] += u.get("cache_creation_input_tokens") or 0
+        totals["cache_read"]     += u.get("cache_read_input_tokens") or 0
+    return totals
 
-    if not last_obj:
-        return totals | {"model": None, "git_branch": None, "response_id": None}
 
-    msg = last_obj.get("message", {})
-    return totals | {
-        "model": msg.get("model"),
-        "git_branch": last_obj.get("gitBranch"),
-        "response_id": last_obj.get("uuid"),
+def git(cmd: list[str], cwd: str) -> str:
+    return subprocess.run(cmd, capture_output=True, text=True, cwd=cwd).stdout.strip()
+
+
+def feature_commit(repo_root: str) -> str | None:
+    """Most recent non-audit commit hash."""
+    for line in git(["git", "log", "--format=%H %s", "-20"], repo_root).splitlines():
+        h, _, subject = line.partition(" ")
+        if not subject.startswith("audit:"):
+            return h
+    return None
+
+
+def commit_metadata(hash_: str, repo_root: str) -> dict:
+    ts, msg, author = git(
+        ["git", "log", "-1", "--format=%aI\t%s\t%an", hash_], repo_root
+    ).split("\t", 2)
+    files = git(
+        ["git", "diff-tree", "--no-commit-id", "-r", "--name-only", hash_], repo_root
+    ).splitlines()
+    return {
+        "commit": hash_,
+        "timestamp": ts,
+        "message": msg,
+        "author": author,
+        "files_changed": [f for f in files if f],
     }
 
 
@@ -70,7 +95,6 @@ def main():
     raw = sys.stdin.read().strip()
     if not raw:
         sys.exit(0)
-
     try:
         hook_input = json.loads(raw)
     except json.JSONDecodeError:
@@ -82,89 +106,86 @@ def main():
     if not transcript_path or not Path(transcript_path).exists():
         sys.exit(0)
 
-    token_data = unlogged_tokens(transcript_path, session_id)
+    # Find the repo root
+    result = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        capture_output=True, text=True,
+    )
+    if result.returncode != 0:
+        sys.exit(0)
+    repo_root = result.stdout.strip()
 
-    # estimate cost using claude sonnet 4.6 pricing as default
-    # input: $3/MTok, output: $15/MTok, cache_read: $0.30/MTok, cache_write: $3.75/MTok
-    input_cost    = (token_data["input_tokens"] / 1_000_000) * 3.00
-    output_cost   = (token_data["output_tokens"] / 1_000_000) * 15.00
-    cache_read    = (token_data["cache_read_input_tokens"] / 1_000_000) * 0.30
-    cache_write   = (token_data["cache_creation_input_tokens"] / 1_000_000) * 3.75
-    cost_usd      = round(input_cost + output_cost + cache_read + cache_write, 6)
+    # Find the feature commit to attribute tokens to
+    feature_hash = feature_commit(repo_root)
+    if not feature_hash:
+        sys.exit(0)
 
-    response_id = token_data["response_id"] or session_id
-
-    payload = {
-        "session_id": session_id,
-        "response_id": response_id,
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "transcript_path": transcript_path,
-        "model": token_data["model"],
-        "git_branch": token_data["git_branch"],
-        "tokens": {
-            "input": token_data["input_tokens"],
-            "output": token_data["output_tokens"],
-            "cache_creation": token_data["cache_creation_input_tokens"],
-            "cache_read": token_data["cache_read_input_tokens"],
-        },
-        "cost_usd": cost_usd,
-    }
-
-    tmp_path = Path(f"/tmp/claude-audit-{session_id}-{response_id}.json")
-    tmp_path.write_text(json.dumps(payload, indent=2))
-
-    # Find the most recent non-audit feature commit, look up its log entry,
-    # add the new tokens, and create a new audit commit. If no entry exists
-    # yet, leave the temp file for post-commit to handle on the next commit.
+    # Load the audit log
+    audit_log = Path(repo_root) / ".claude-audit" / "log.json"
     try:
-        repo_root = subprocess.run(
-            ["git", "rev-parse", "--show-toplevel"],
-            capture_output=True, text=True, check=True,
-        ).stdout.strip()
+        entries = json.loads(audit_log.read_text()) if audit_log.exists() else []
+    except (json.JSONDecodeError, OSError):
+        entries = []
 
-        # Walk back through recent commits to find the feature commit
-        # (skip any audit: commits created by this hook or post-commit)
-        log = subprocess.run(
-            ["git", "log", "--format=%H %s", "-20"],
-            capture_output=True, text=True, check=True, cwd=repo_root,
-        ).stdout.strip().splitlines()
+    # Find the last response UUID already logged for this session — the
+    # high-water mark. Only count transcript responses that appear after it.
+    last_logged_id = None
+    for entry in reversed(entries):
+        if entry.get("claude", {}).get("session_id") == session_id:
+            last_logged_id = entry["claude"].get("last_response_id")
+            break
 
-        feature_hash = None
-        for line in log:
-            h, _, subject = line.partition(" ")
-            if not subject.startswith("audit:"):
-                feature_hash = h
-                break
+    all_responses = read_transcript(transcript_path)
 
-        if feature_hash:
-            audit_log = Path(repo_root) / ".claude-audit" / "log.json"
-            if audit_log.exists():
-                entries = json.loads(audit_log.read_text())
-                for entry in reversed(entries):
-                    if entry.get("commit") == feature_hash:
-                        t = entry["claude"]["tokens"]
-                        t["input"]          += payload["tokens"]["input"]
-                        t["output"]         += payload["tokens"]["output"]
-                        t["cache_creation"] += payload["tokens"]["cache_creation"]
-                        t["cache_read"]     += payload["tokens"]["cache_read"]
-                        entry["claude"]["cost_usd"] = round(
-                            (t["input"]          / 1_000_000) * 3.00 +
-                            (t["output"]         / 1_000_000) * 15.00 +
-                            (t["cache_read"]     / 1_000_000) * 0.30 +
-                            (t["cache_creation"] / 1_000_000) * 3.75,
-                            6,
-                        )
-                        audit_log.write_text(json.dumps(entries, indent=2))
-                        subprocess.run(["git", "add", str(audit_log)], cwd=repo_root, check=False)
-                        subprocess.run(
-                            ["git", "commit", "--no-verify", "-m",
-                             f"audit: update token attribution for {feature_hash[:7]}"],
-                            cwd=repo_root, check=False,
-                        )
-                        tmp_path.rename(tmp_path.with_suffix(".done"))
-                        break
-    except (subprocess.CalledProcessError, OSError, json.JSONDecodeError):
-        pass  # not in a git repo, log missing/corrupt, or hook error - skip silently
+    if last_logged_id:
+        cutoff = next(
+            (i for i, r in enumerate(all_responses) if r.get("uuid") == last_logged_id),
+            -1,
+        )
+        new_responses = all_responses[cutoff + 1:]
+    else:
+        new_responses = all_responses
+
+    if not new_responses:
+        sys.exit(0)
+
+    last = new_responses[-1]
+    new_tokens = sum_tokens(new_responses)
+
+    # Update existing entry for this commit, or create a new one
+    existing = next((e for e in entries if e.get("commit") == feature_hash), None)
+
+    if existing:
+        t = existing["claude"]["tokens"]
+        t["input"]          += new_tokens["input"]
+        t["output"]         += new_tokens["output"]
+        t["cache_creation"] += new_tokens["cache_creation"]
+        t["cache_read"]     += new_tokens["cache_read"]
+        existing["claude"]["cost_usd"] = compute_cost(t)
+        existing["claude"]["last_response_id"] = last.get("uuid")
+    else:
+        meta = commit_metadata(feature_hash, repo_root)
+        entries.append({
+            **meta,
+            "claude": {
+                "session_id": session_id,
+                "model": last.get("message", {}).get("model"),
+                "git_branch": last.get("gitBranch"),
+                "tokens": new_tokens,
+                "cost_usd": compute_cost(new_tokens),
+                "session_timestamp": datetime.now(timezone.utc).isoformat(),
+                "last_response_id": last.get("uuid"),
+            },
+        })
+
+    audit_log.parent.mkdir(exist_ok=True)
+    audit_log.write_text(json.dumps(entries, indent=2))
+    subprocess.run(["git", "add", str(audit_log)], cwd=repo_root)
+    subprocess.run(
+        ["git", "commit", "--no-verify", "-m",
+         f"audit: update token attribution for {feature_hash[:7]}"],
+        cwd=repo_root,
+    )
 
 
 if __name__ == "__main__":
