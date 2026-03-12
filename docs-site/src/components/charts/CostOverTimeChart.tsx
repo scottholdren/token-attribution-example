@@ -19,6 +19,7 @@ export function CostOverTimeChart({ entries }: CostOverTimeChartProps) {
     cumulative += e.claude.cost_usd
     return {
       hash: e.commit.slice(0, 7),
+      message: e.message,
       cumulative: parseFloat(cumulative.toFixed(4)),
     }
   })
@@ -42,7 +43,10 @@ export function CostOverTimeChart({ entries }: CostOverTimeChartProps) {
           />
           <Tooltip
             formatter={(value: number) => [`$${value.toFixed(4)}`, 'Cumulative cost']}
-            labelFormatter={(label) => `Commit ${label}`}
+            labelFormatter={(label) => {
+              const entry = data.find((d) => d.hash === label)
+              return entry ? `${label} — ${entry.message}` : `Commit ${label}`
+            }}
           />
           <Line
             type="monotone"
