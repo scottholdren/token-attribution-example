@@ -8,7 +8,7 @@ interface DropZoneProps {
 
 function validateEntries(data: unknown): AuditEntry[] {
   if (!Array.isArray(data)) throw new Error('JSON must be an array of audit entries.')
-  if (data.length === 0) throw new Error('Array is empty — no entries to display.')
+  if (data.length === 0) throw new Error('Array is empty - no entries to display.')
   const first = data[0] as Record<string, unknown>
   if (
     typeof first !== 'object' ||

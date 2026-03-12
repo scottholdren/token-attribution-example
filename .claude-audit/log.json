@@ -262,5 +262,31 @@
       "cost_usd": 0.029515,
       "session_timestamp": "2026-03-12T15:29:48.647745+00:00"
     }
+  },
+  {
+    "commit": "37908d7bea4d9cdac3986db1525d0ab016dfb75f",
+    "timestamp": "2026-03-12T11:52:02-04:00",
+    "message": "fix: replace em-dashes with hyphens throughout docs-site",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "docs-site/src/components/Dashboard.tsx",
+      "docs-site/src/components/DropZone.tsx",
+      "docs-site/src/components/charts/CostPerCommitChart.tsx",
+      "docs-site/src/pages/HomePage.tsx",
+      "docs-site/src/pages/SamplePage.tsx"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 1,
+        "output": 226,
+        "cache_creation": 247,
+        "cache_read": 75536
+      },
+      "cost_usd": 0.02698,
+      "session_timestamp": "2026-03-12T15:43:34.265042+00:00"
+    }
   }
 ]

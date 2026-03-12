@@ -240,7 +240,7 @@ export function HomePage({ setPage }: HomePageProps) {
       <div className="mb-12">
         <h1 className="text-4xl font-bold text-slate-900">Token Attribution for Claude Code</h1>
         <p className="mt-4 text-lg text-slate-600">
-          Automatically track which commits consumed Claude tokens and how much they cost — without
+          Automatically track which commits consumed Claude tokens and how much they cost - without
           changing your workflow. Every{' '}
           <code className="rounded bg-slate-100 px-1.5 py-0.5 text-sm font-mono text-slate-800">
             git commit
@@ -288,7 +288,7 @@ export function HomePage({ setPage }: HomePageProps) {
         <div className="space-y-8">
           <div>
             <h3 className="mb-2 font-semibold text-slate-700">
-              Step 1 — Create the Stop hook script
+              Step 1 - Create the Stop hook script
             </h3>
             <p className="mb-2 text-sm text-slate-500">
               Save this to{' '}
@@ -302,7 +302,7 @@ export function HomePage({ setPage }: HomePageProps) {
 
           <div>
             <h3 className="mb-2 font-semibold text-slate-700">
-              Step 2 — Configure Claude Code settings
+              Step 2 - Configure Claude Code settings
             </h3>
             <p className="mb-2 text-sm text-slate-500">
               Add to your{' '}
@@ -316,7 +316,7 @@ export function HomePage({ setPage }: HomePageProps) {
 
           <div>
             <h3 className="mb-2 font-semibold text-slate-700">
-              Step 3 — Install the post-commit hook
+              Step 3 - Install the post-commit hook
             </h3>
             <p className="mb-2 text-sm text-slate-500">
               Save this to{' '}
@@ -332,7 +332,7 @@ export function HomePage({ setPage }: HomePageProps) {
           </div>
 
           <div>
-            <h3 className="mb-2 font-semibold text-slate-700">Step 4 — Verify</h3>
+            <h3 className="mb-2 font-semibold text-slate-700">Step 4 - Verify</h3>
             <p className="text-sm text-slate-500">
               Use Claude Code to make a change, then commit. Check that{' '}
               <code className="rounded bg-slate-100 px-1 font-mono text-slate-700">

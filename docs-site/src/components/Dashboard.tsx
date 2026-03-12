@@ -46,7 +46,7 @@ export function Dashboard({ entries }: DashboardProps) {
         <StatCard label="Avg per Commit" value={`$${avgCost.toFixed(4)}`} />
         <StatCard
           label="Most Expensive"
-          value={`$${maxEntry?.claude.cost_usd.toFixed(4) ?? '—'}`}
+          value={`$${maxEntry?.claude.cost_usd.toFixed(4) ?? '-'}`}
         />
         <StatCard
           label="Total Tokens"

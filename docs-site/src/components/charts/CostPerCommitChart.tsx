@@ -45,7 +45,7 @@ export function CostPerCommitChart({ entries }: CostPerCommitChartProps) {
             formatter={(value: number) => [`$${value.toFixed(4)}`, 'Cost']}
             labelFormatter={(label) => {
               const entry = data.find((d) => d.hash === label)
-              return entry ? `${label} — ${entry.message}` : label
+              return entry ? `${label} - ${entry.message}` : label
             }}
           />
           <Bar dataKey="cost" radius={[4, 4, 0, 0]}>
