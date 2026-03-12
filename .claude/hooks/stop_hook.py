@@ -16,8 +16,16 @@ from datetime import datetime, timezone
 def unlogged_tokens(transcript_path: str, session_id: str) -> dict:
     fields = ["input_tokens", "output_tokens", "cache_creation_input_tokens", "cache_read_input_tokens"]
     totals = {f: 0 for f in fields}
-    last_obj = None
 
+    # Build the set of response UUIDs already written to a temp file
+    logged_uuids: set[str] = set()
+    prefix = f"claude-audit-{session_id}-"
+    for suffix in ("*.json", "*.done"):
+        for path in Path("/tmp").glob(f"{prefix}{suffix}"):
+            logged_uuids.add(path.stem[len(prefix):])
+
+    # Collect all assistant responses from the transcript in order
+    responses: list[dict] = []
     try:
         with open(transcript_path) as f:
             for line in f:
@@ -28,21 +36,24 @@ def unlogged_tokens(transcript_path: str, session_id: str) -> dict:
                     obj = json.loads(line)
                 except json.JSONDecodeError:
                     continue
-
                 if obj.get("type") == "assistant" and obj.get("message", {}).get("usage"):
-                    response_id = obj.get("uuid")
-                    if response_id:
-                        stem = Path(f"/tmp/claude-audit-{session_id}-{response_id}")
-                        if stem.with_suffix(".json").exists() or stem.with_suffix(".done").exists():
-                            continue
-
-                    usage = obj["message"]["usage"]
-                    for f in fields:
-                        totals[f] += usage.get(f) or 0
-                    last_obj = obj
-
+                    responses.append(obj)
     except FileNotFoundError:
         pass
+
+    # Find the high-water mark: the last response already logged.
+    # Only sum responses that appear after it in the transcript.
+    last_logged_idx = -1
+    for i, obj in enumerate(responses):
+        if obj.get("uuid") in logged_uuids:
+            last_logged_idx = i
+
+    last_obj = None
+    for obj in responses[last_logged_idx + 1:]:
+        usage = obj["message"]["usage"]
+        for f in fields:
+            totals[f] += usage.get(f) or 0
+        last_obj = obj
 
     if not last_obj:
         return totals | {"model": None, "git_branch": None, "response_id": None}

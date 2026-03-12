@@ -20,5 +20,50 @@
       "cost_usd": 10.197359,
       "session_timestamp": "2026-03-12T17:01:27.862818+00:00"
     }
+  },
+  {
+    "commit": "b7505e96432d0f5eac62dd7fa23f035522428eb7",
+    "timestamp": "2026-03-12T13:07:07-04:00",
+    "message": "fix: use high-water mark to find unlogged responses",
+    "author": "Scott Holdren",
+    "files_changed": [
+      ".claude/hooks/stop_hook.py"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 17,
+        "output": 7849,
+        "cache_creation": 378590,
+        "cache_read": 606988
+      },
+      "cost_usd": 1.719595,
+      "session_timestamp": "2026-03-12T17:07:52.661751+00:00"
+    }
+  },
+  {
+    "commit": "282d6e016142132e7489aefbea1b4e788cfd2eb9",
+    "timestamp": "2026-03-12T13:07:07-04:00",
+    "message": "fix: use high-water mark to find unlogged responses",
+    "author": "Scott Holdren",
+    "files_changed": [
+      ".claude-audit/log.json",
+      ".claude/hooks/stop_hook.py"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 11,
+        "output": 2488,
+        "cache_creation": 252,
+        "cache_read": 253098
+      },
+      "cost_usd": 0.114227,
+      "session_timestamp": "2026-03-12T17:13:38.040017+00:00"
+    }
   }
 ]
