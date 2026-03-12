@@ -1,95 +1,5 @@
 [
   {
-    "commit": "21877afd0bba83f34ce982119a84ec5737d2d713",
-    "timestamp": "2026-03-12T14:24:38-04:00",
-    "message": "fix: use ephemeral cache fields for cache_creation cost",
-    "author": "Scott Holdren",
-    "files_changed": [
-      ".claude-audit/log.json",
-      ".claude-audit/session-marks.json",
-      ".claude/hooks/stop_hook.py"
-    ],
-    "claude": {
-      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
-      "model": "anthropic/claude-4.6-sonnet-20260217",
-      "git_branch": "main",
-      "tokens": {
-        "input": 1,
-        "output": 365,
-        "cache_creation": 0,
-        "cache_read": 97659
-      },
-      "cost_usd": 0.034776,
-      "session_timestamp": "2026-03-12T18:24:44.879489+00:00"
-    }
-  },
-  {
-    "commit": "7498c73d0a8eda4d0b6d7a7453cd3e1e75a9b9fa",
-    "timestamp": "2026-03-12T14:26:09-04:00",
-    "message": "docs: rename sample page heading",
-    "author": "Scott Holdren",
-    "files_changed": [
-      "docs-site/src/pages/SamplePage.tsx"
-    ],
-    "claude": {
-      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
-      "model": "anthropic/claude-4.6-sonnet-20260217",
-      "git_branch": "main",
-      "tokens": {
-        "input": 29,
-        "output": 23761,
-        "cache_creation": 0,
-        "cache_read": 1137429
-      },
-      "cost_usd": 0.697731,
-      "session_timestamp": "2026-03-12T18:26:13.265625+00:00"
-    }
-  },
-  {
-    "commit": "d990381a51d0e25dacca656e8330aae29c8ebe79",
-    "timestamp": "2026-03-12T14:38:19-04:00",
-    "message": "docs: revert sample page heading",
-    "author": "Scott Holdren",
-    "files_changed": [
-      "docs-site/src/pages/SamplePage.tsx"
-    ],
-    "claude": {
-      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
-      "model": "anthropic/claude-4.6-sonnet-20260217",
-      "git_branch": "main",
-      "tokens": {
-        "input": 34,
-        "output": 17326,
-        "cache_creation": 0,
-        "cache_read": 572917
-      },
-      "cost_usd": 0.431867,
-      "session_timestamp": "2026-03-12T18:38:23.959885+00:00"
-    }
-  },
-  {
-    "commit": "a5c71f7628a7f98a2fe91aca6d4b0b7869cb14d7",
-    "timestamp": "2026-03-12T15:16:08-04:00",
-    "message": "feat: dump new responses to audit dir for inspection",
-    "author": "Scott Holdren",
-    "files_changed": [
-      ".claude/hooks/stop_hook.py"
-    ],
-    "claude": {
-      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
-      "model": "anthropic/claude-4.6-sonnet-20260217",
-      "git_branch": "main",
-      "tokens": {
-        "input": 51,
-        "output": 9520,
-        "cache_creation": 75541,
-        "cache_read": 564793
-      },
-      "cost_usd": 0.59567,
-      "session_timestamp": "2026-03-12T19:16:15.864005+00:00"
-    }
-  },
-  {
     "commit": "ba4efa2cb5e34f393d55322dbd48b99a1718c632",
     "timestamp": "2026-03-12T15:36:49-04:00",
     "message": "fix: simplify cache token handling for direct Anthropic API",
@@ -103,13 +13,13 @@
       "model": "claude-sonnet-4-6",
       "git_branch": "main",
       "tokens": {
-        "input": 5,
-        "output": 311,
-        "cache_creation": 2773,
-        "cache_read": 101297
+        "input": 9,
+        "output": 363,
+        "cache_creation": 797,
+        "cache_read": 179217
       },
-      "cost_usd": 0.045468,
-      "session_timestamp": "2026-03-12T19:36:56.469738+00:00"
+      "cost_usd": 0.062226,
+      "session_timestamp": "2026-03-12T19:38:34.571934+00:00"
     }
   }
 ]
