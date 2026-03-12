@@ -100,6 +100,17 @@ def commit_metadata(hash_: str, repo_root: str) -> dict:
     }
 
 
+def truncate_values(obj, max_len: int = 40):
+    """Recursively truncate string values longer than max_len."""
+    if isinstance(obj, dict):
+        return {k: truncate_values(v, max_len) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [truncate_values(item, max_len) for item in obj]
+    if isinstance(obj, str) and len(obj) > max_len:
+        return obj[:max_len] + "…"
+    return obj
+
+
 def load_marks(marks_file: Path) -> dict:
     try:
         return json.loads(marks_file.read_text()) if marks_file.exists() else {}
@@ -168,6 +179,11 @@ def main():
     last = new_responses[-1]
     new_tokens = sum_tokens(new_responses)
 
+    # Dump new responses (truncated) for inspection
+    audit_dir.mkdir(exist_ok=True)
+    responses_log = audit_dir / f"responses-{session_id[:8]}.json"
+    responses_log.write_text(json.dumps(truncate_values(new_responses), indent=2))
+
     # Update existing entry for this commit, or create a new one
     existing = next((e for e in entries if e.get("commit") == feature_hash), None)
 
@@ -199,7 +215,7 @@ def main():
     audit_log.write_text(json.dumps(entries, indent=2))
     marks_file.write_text(json.dumps(marks, indent=2))
 
-    subprocess.run(["git", "add", str(audit_log), str(marks_file)], cwd=repo_root)
+    subprocess.run(["git", "add", str(audit_log), str(marks_file), str(responses_log)], cwd=repo_root)
     subprocess.run(
         ["git", "commit", "--no-verify", "-m",
          f"audit: update token attribution for {feature_hash[:7]}"],
