@@ -61,13 +61,7 @@ def sum_tokens(responses: list[dict]) -> dict:
         totals["input"]  += u.get("input_tokens") or 0
         totals["output"] += u.get("output_tokens") or 0
         totals["cache_read"] += u.get("cache_read_input_tokens") or 0
-        # Prefer the nested ephemeral breakdown (accurate when routing via OpenRouter).
-        # Fall back to the top-level field only when the nested object is absent,
-        # which is the case for direct Anthropic API calls.
-        nested = u.get("cache_creation") or {}
-        eph = (nested.get("ephemeral_1h_input_tokens") or 0) + \
-              (nested.get("ephemeral_5m_input_tokens") or 0)
-        totals["cache_creation"] += eph if nested else (u.get("cache_creation_input_tokens") or 0)
+        totals["cache_creation"] += u.get("cache_creation_input_tokens") or 0
     return totals
 
 
@@ -179,10 +173,10 @@ def main():
     last = new_responses[-1]
     new_tokens = sum_tokens(new_responses)
 
-    # Dump new responses (truncated) for inspection
+    # Dump all responses (truncated) for inspection
     audit_dir.mkdir(exist_ok=True)
     responses_log = audit_dir / f"responses-{session_id[:8]}.json"
-    responses_log.write_text(json.dumps(truncate_values(new_responses), indent=2))
+    responses_log.write_text(json.dumps(truncate_values(all_responses), indent=2))
 
     # Update existing entry for this commit, or create a new one
     existing = next((e for e in entries if e.get("commit") == feature_hash), None)

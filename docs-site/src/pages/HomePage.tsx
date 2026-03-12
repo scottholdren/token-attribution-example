@@ -28,6 +28,9 @@ Claude Code Stop hook.
 At the end of each response, sums all transcript responses not yet counted,
 then updates or creates a log entry for the current feature commit and
 creates a new audit commit. No temp files - the log is the source of truth.
+
+High-water marks (last logged response UUID per session) are stored in a
+separate file (.claude-audit/session-marks.json) so they survive log resets.
 """
 
 import json
@@ -81,9 +84,20 @@ def sum_tokens(responses: list[dict]) -> dict:
         u = obj["message"]["usage"]
         totals["input"]          += u.get("input_tokens") or 0
         totals["output"]         += u.get("output_tokens") or 0
-        totals["cache_creation"] += u.get("cache_creation_input_tokens") or 0
         totals["cache_read"]     += u.get("cache_read_input_tokens") or 0
+        totals["cache_creation"] += u.get("cache_creation_input_tokens") or 0
     return totals
+
+
+def truncate_values(obj, max_len: int = 40):
+    """Recursively truncate string values longer than max_len."""
+    if isinstance(obj, dict):
+        return {k: truncate_values(v, max_len) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [truncate_values(item, max_len) for item in obj]
+    if isinstance(obj, str) and len(obj) > max_len:
+        return obj[:max_len] + "..."
+    return obj
 
 
 def git(cmd: list[str], cwd: str) -> str:
@@ -115,6 +129,13 @@ def commit_metadata(hash_: str, repo_root: str) -> dict:
     }
 
 
+def load_marks(marks_file: Path) -> dict:
+    try:
+        return json.loads(marks_file.read_text()) if marks_file.exists() else {}
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
 def main():
     raw = sys.stdin.read().strip()
     if not raw:
@@ -142,18 +163,19 @@ def main():
     if not feature_hash:
         sys.exit(0)
 
-    audit_log = Path(repo_root) / ".claude-audit" / "log.json"
+    audit_dir = Path(repo_root) / ".claude-audit"
+    audit_log = audit_dir / "log.json"
+    marks_file = audit_dir / "session-marks.json"
+
     try:
         entries = json.loads(audit_log.read_text()) if audit_log.exists() else []
     except (json.JSONDecodeError, OSError):
         entries = []
 
-    # Find the high-water mark: last response UUID already logged for this session
-    last_logged_id = None
-    for entry in reversed(entries):
-        if entry.get("claude", {}).get("session_id") == session_id:
-            last_logged_id = entry["claude"].get("last_response_id")
-            break
+    # High-water mark lives in session-marks.json, not in the log.
+    # This survives log resets.
+    marks = load_marks(marks_file)
+    last_logged_id = marks.get(session_id)
 
     all_responses = read_transcript(transcript_path)
 
@@ -172,6 +194,11 @@ def main():
     last = new_responses[-1]
     new_tokens = sum_tokens(new_responses)
 
+    # Dump all responses (truncated) for inspection
+    audit_dir.mkdir(exist_ok=True)
+    responses_log = audit_dir / f"responses-{session_id[:8]}.json"
+    responses_log.write_text(json.dumps(truncate_values(all_responses), indent=2))
+
     # Update existing entry for this commit, or create a new one
     existing = next((e for e in entries if e.get("commit") == feature_hash), None)
 
@@ -182,7 +209,6 @@ def main():
         t["cache_creation"] += new_tokens["cache_creation"]
         t["cache_read"]     += new_tokens["cache_read"]
         existing["claude"]["cost_usd"] = compute_cost(t)
-        existing["claude"]["last_response_id"] = last.get("uuid")
     else:
         meta = commit_metadata(feature_hash, repo_root)
         entries.append({
@@ -194,13 +220,17 @@ def main():
                 "tokens": new_tokens,
                 "cost_usd": compute_cost(new_tokens),
                 "session_timestamp": datetime.now(timezone.utc).isoformat(),
-                "last_response_id": last.get("uuid"),
             },
         })
 
-    audit_log.parent.mkdir(exist_ok=True)
+    # Advance the high-water mark
+    marks[session_id] = last.get("uuid")
+
+    audit_dir.mkdir(exist_ok=True)
     audit_log.write_text(json.dumps(entries, indent=2))
-    subprocess.run(["git", "add", str(audit_log)], cwd=repo_root)
+    marks_file.write_text(json.dumps(marks, indent=2))
+
+    subprocess.run(["git", "add", str(audit_log), str(marks_file), str(responses_log)], cwd=repo_root)
     subprocess.run(
         ["git", "commit", "--no-verify", "-m",
          f"audit: update token attribution for {feature_hash[:7]}"],
