@@ -356,5 +356,27 @@
       "cost_usd": 0.057858,
       "session_timestamp": "2026-03-12T16:28:41.699066+00:00"
     }
+  },
+  {
+    "commit": "e90874819fe7dfd226daffb7d044187394fd3bdd",
+    "timestamp": "2026-03-12T12:34:50-04:00",
+    "message": "docs: update homepage to reflect unlogged-response token summing",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "docs-site/src/pages/HomePage.tsx"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 241,
+        "output": 36442,
+        "cache_creation": 1418500,
+        "cache_read": 4584034
+      },
+      "cost_usd": 7.241938,
+      "session_timestamp": "2026-03-12T16:31:27.437127+00:00"
+    }
   }
 ]

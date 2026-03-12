@@ -26,20 +26,20 @@ const STOP_HOOK_PY = `#!/usr/bin/env python3
 """
 Claude Code Stop hook.
 Reads session data from stdin, parses the transcript JSONL,
-extracts the most recent response's token usage, and writes to a temp file
-for the post-commit hook.
+sums token usage for all assistant responses not yet written to a temp file,
+and writes the result to a temp file for the post-commit hook.
 """
 
 import json
 import sys
-import os
 from pathlib import Path
 from datetime import datetime, timezone
 
 
-def last_response_tokens(transcript_path: str) -> dict:
+def unlogged_tokens(transcript_path: str, session_id: str) -> dict:
     fields = ["input_tokens", "output_tokens",
               "cache_creation_input_tokens", "cache_read_input_tokens"]
+    totals = {f: 0 for f in fields}
     last_obj = None
 
     try:
@@ -52,18 +52,26 @@ def last_response_tokens(transcript_path: str) -> dict:
                     obj = json.loads(line)
                 except json.JSONDecodeError:
                     continue
+
                 if obj.get("type") == "assistant" and obj.get("message", {}).get("usage"):
+                    response_id = obj.get("uuid")
+                    if response_id:
+                        stem = Path(f"/tmp/claude-audit-{session_id}-{response_id}")
+                        if stem.with_suffix(".json").exists() or stem.with_suffix(".done").exists():
+                            continue
+
+                    usage = obj["message"]["usage"]
+                    for f in fields:
+                        totals[f] += usage.get(f) or 0
                     last_obj = obj
     except FileNotFoundError:
         pass
 
     if not last_obj:
-        return {f: 0 for f in fields} | {"model": None, "git_branch": None, "response_id": None}
+        return totals | {"model": None, "git_branch": None, "response_id": None}
 
     msg = last_obj.get("message", {})
-    usage = msg.get("usage", {})
-    return {
-        **{f: usage.get(f) or 0 for f in fields},
+    return totals | {
         "model": msg.get("model"),
         "git_branch": last_obj.get("gitBranch"),
         "response_id": last_obj.get("uuid"),
@@ -86,7 +94,7 @@ def main():
     if not transcript_path or not Path(transcript_path).exists():
         sys.exit(0)
 
-    token_data = last_response_tokens(transcript_path)
+    token_data = unlogged_tokens(transcript_path, session_id)
 
     # Estimate cost using Claude Sonnet 4.6 pricing
     # input: $3/MTok, output: $15/MTok,
@@ -257,7 +265,7 @@ export function HomePage({ setPage }: HomePageProps) {
             {
               step: '1',
               title: 'Stop hook fires',
-              desc: 'When Claude Code ends a session, the Stop hook reads the transcript JSONL and extracts the last response\'s token usage and cost estimate.',
+              desc: 'When Claude Code ends a session, the Stop hook reads the transcript JSONL and sums token usage for all responses not yet written to a temp file - so multiple commits in one session each get only their own work.',
             },
             {
               step: '2',
