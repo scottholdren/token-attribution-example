@@ -1,60 +1,12 @@
 [
   {
-    "parentUuid": "a2f54fa2-4b5e-4f2f-b04d-4dc92ccd2cc5",
+    "parentUuid": "90c56d5a-9c10-4209-b4a4-395f07c6d1ec",
     "isSidechain": false,
     "type": "assistant",
-    "uuid": "6178240f-5713-4574-ae79-2ebe5c127e62",
-    "timestamp": "2026-03-12T19:27:22.131Z",
+    "uuid": "8d170bf8-8085-4acf-b69f-6a44c4302e25",
+    "timestamp": "2026-03-12T19:28:37.004Z",
     "message": {
-      "id": "40d73309-b741-4235-b384-80b8a46b1d4c",
-      "container": null,
-      "model": "<synthetic>",
-      "role": "assistant",
-      "stop_reason": "stop_sequence",
-      "stop_sequence": "",
-      "type": "message",
-      "usage": {
-        "input_tokens": 0,
-        "output_tokens": 0,
-        "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 0,
-        "server_tool_use": {
-          "web_search_requests": 0,
-          "web_fetch_requests": 0
-        },
-        "service_tier": null,
-        "cache_creation": {
-          "ephemeral_1h_input_tokens": 0,
-          "ephemeral_5m_input_tokens": 0
-        },
-        "inference_geo": null,
-        "iterations": null,
-        "speed": null
-      },
-      "content": [
-        {
-          "type": "text",
-          "text": "Not logged in \u00b7 Please run /login"
-        }
-      ],
-      "context_management": null
-    },
-    "error": "authentication_failed",
-    "isApiErrorMessage": true,
-    "userType": "external",
-    "cwd": "/mnt/c/dev/token-attribution-example",
-    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
-    "version": "2.1.74",
-    "gitBranch": "main"
-  },
-  {
-    "parentUuid": "ba9f6936-c040-4efb-87bc-db171050bb24",
-    "isSidechain": false,
-    "type": "assistant",
-    "uuid": "d13fde44-1b31-472b-976e-2320c7cac404",
-    "timestamp": "2026-03-12T19:28:19.726Z",
-    "message": {
-      "id": "351d6941-370d-4d3f-bdbe-4973b3b9da08",
+      "id": "d3140d11-48a9-4625-9e6c-2a04ed20f27c",
       "container": null,
       "model": "<synthetic>",
       "role": "assistant",
