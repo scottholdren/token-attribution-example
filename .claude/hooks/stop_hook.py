@@ -113,42 +113,56 @@ def main():
     tmp_path = Path(f"/tmp/claude-audit-{session_id}-{response_id}.json")
     tmp_path.write_text(json.dumps(payload, indent=2))
 
-    # If the audit log already has an entry for this session, update it in
-    # place and create a new audit commit (never --amend, to avoid push
-    # conflicts). If no entry exists yet, leave the temp file for the
-    # post-commit hook to pick up on the next commit.
+    # Find the most recent non-audit feature commit, look up its log entry,
+    # add the new tokens, and create a new audit commit. If no entry exists
+    # yet, leave the temp file for post-commit to handle on the next commit.
     try:
         repo_root = subprocess.run(
             ["git", "rev-parse", "--show-toplevel"],
             capture_output=True, text=True, check=True,
         ).stdout.strip()
 
-        audit_log = Path(repo_root) / ".claude-audit" / "log.json"
-        if audit_log.exists():
-            entries = json.loads(audit_log.read_text())
-            for entry in reversed(entries):
-                if entry.get("claude", {}).get("session_id") == session_id:
-                    t = entry["claude"]["tokens"]
-                    t["input"]         += payload["tokens"]["input"]
-                    t["output"]        += payload["tokens"]["output"]
-                    t["cache_creation"] += payload["tokens"]["cache_creation"]
-                    t["cache_read"]    += payload["tokens"]["cache_read"]
-                    entry["claude"]["cost_usd"] = round(
-                        (t["input"]          / 1_000_000) * 3.00 +
-                        (t["output"]         / 1_000_000) * 15.00 +
-                        (t["cache_read"]     / 1_000_000) * 0.30 +
-                        (t["cache_creation"] / 1_000_000) * 3.75,
-                        6,
-                    )
-                    audit_log.write_text(json.dumps(entries, indent=2))
-                    subprocess.run(["git", "add", str(audit_log)], cwd=repo_root, check=False)
-                    subprocess.run(
-                        ["git", "commit", "--no-verify", "-m",
-                         f"audit: update token attribution for {entry['commit'][:7]}"],
-                        cwd=repo_root, check=False,
-                    )
-                    tmp_path.rename(tmp_path.with_suffix(".done"))
-                    break
+        # Walk back through recent commits to find the feature commit
+        # (skip any audit: commits created by this hook or post-commit)
+        log = subprocess.run(
+            ["git", "log", "--format=%H %s", "-20"],
+            capture_output=True, text=True, check=True, cwd=repo_root,
+        ).stdout.strip().splitlines()
+
+        feature_hash = None
+        for line in log:
+            h, _, subject = line.partition(" ")
+            if not subject.startswith("audit:"):
+                feature_hash = h
+                break
+
+        if feature_hash:
+            audit_log = Path(repo_root) / ".claude-audit" / "log.json"
+            if audit_log.exists():
+                entries = json.loads(audit_log.read_text())
+                for entry in reversed(entries):
+                    if entry.get("commit") == feature_hash:
+                        t = entry["claude"]["tokens"]
+                        t["input"]          += payload["tokens"]["input"]
+                        t["output"]         += payload["tokens"]["output"]
+                        t["cache_creation"] += payload["tokens"]["cache_creation"]
+                        t["cache_read"]     += payload["tokens"]["cache_read"]
+                        entry["claude"]["cost_usd"] = round(
+                            (t["input"]          / 1_000_000) * 3.00 +
+                            (t["output"]         / 1_000_000) * 15.00 +
+                            (t["cache_read"]     / 1_000_000) * 0.30 +
+                            (t["cache_creation"] / 1_000_000) * 3.75,
+                            6,
+                        )
+                        audit_log.write_text(json.dumps(entries, indent=2))
+                        subprocess.run(["git", "add", str(audit_log)], cwd=repo_root, check=False)
+                        subprocess.run(
+                            ["git", "commit", "--no-verify", "-m",
+                             f"audit: update token attribution for {feature_hash[:7]}"],
+                            cwd=repo_root, check=False,
+                        )
+                        tmp_path.rename(tmp_path.with_suffix(".done"))
+                        break
     except (subprocess.CalledProcessError, OSError, json.JSONDecodeError):
         pass  # not in a git repo, log missing/corrupt, or hook error - skip silently
 
