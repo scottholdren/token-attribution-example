@@ -43,5 +43,27 @@
       "cost_usd": 0.18747,
       "session_timestamp": "2026-03-12T19:39:23.476893+00:00"
     }
+  },
+  {
+    "commit": "e7fc146ab244db6d40ef29ea8de2a4b82b9d9a57",
+    "timestamp": "2026-03-12T15:44:51-04:00",
+    "message": "feat: show commit message in CostOverTimeChart tooltip",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "docs-site/src/components/charts/CostOverTimeChart.tsx"
+    ],
+    "claude": {
+      "session_id": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+      "model": "claude-sonnet-4-6",
+      "git_branch": "main",
+      "tokens": {
+        "input": 7,
+        "output": 844,
+        "cache_creation": 1794,
+        "cache_read": 214719
+      },
+      "cost_usd": 0.083824,
+      "session_timestamp": "2026-03-12T19:44:57.940550+00:00"
+    }
   }
 ]
