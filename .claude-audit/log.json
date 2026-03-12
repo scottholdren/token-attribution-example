@@ -88,5 +88,28 @@
       "cost_usd": 0.59567,
       "session_timestamp": "2026-03-12T19:16:15.864005+00:00"
     }
+  },
+  {
+    "commit": "ba4efa2cb5e34f393d55322dbd48b99a1718c632",
+    "timestamp": "2026-03-12T15:36:49-04:00",
+    "message": "fix: simplify cache token handling for direct Anthropic API",
+    "author": "Scott Holdren",
+    "files_changed": [
+      ".claude/hooks/stop_hook.py",
+      "docs-site/src/pages/HomePage.tsx"
+    ],
+    "claude": {
+      "session_id": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+      "model": "claude-sonnet-4-6",
+      "git_branch": "main",
+      "tokens": {
+        "input": 5,
+        "output": 311,
+        "cache_creation": 2773,
+        "cache_read": 101297
+      },
+      "cost_usd": 0.045468,
+      "session_timestamp": "2026-03-12T19:36:56.469738+00:00"
+    }
   }
 ]

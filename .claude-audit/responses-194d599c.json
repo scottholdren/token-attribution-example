@@ -1112,5 +1112,159 @@
     "version": "2.1.74",
     "gitBranch": "main",
     "slug": "glittery-conjuring-bee"
+  },
+  {
+    "parentUuid": "9b8fe686-fe1a-4cde-b929-9da687554487",
+    "isSidechain": false,
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01Wkyfv5rj7aFtb1HCxZF86o",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_01H2X4AqomrkfPLcVZ6x5shf",
+          "name": "Bash",
+          "input": {
+            "command": "git status && git diff",
+            "description": "Show git status and diff"
+          },
+          "caller": {
+            "type": "direct"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 3,
+        "cache_creation_input_tokens": 5,
+        "cache_read_input_tokens": 32963,
+        "output_tokens": 92,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 5
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard"
+      }
+    },
+    "requestId": "req_011CYykQ2FbnbwcjY1j51ToW",
+    "type": "assistant",
+    "uuid": "1acecdfd-5999-4d36-90a5-ea9f0f08a5e9",
+    "timestamp": "2026-03-12T19:36:39.745Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "glittery-conjuring-bee"
+  },
+  {
+    "parentUuid": "c7328411-9036-4693-9de8-52a970da1b27",
+    "isSidechain": false,
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01EL9KS36TWM4BfZSPweDUiT",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_01B9cMFQCz6suozTrTpeKHDt",
+          "name": "Bash",
+          "input": {
+            "command": "git add .claude/hooks/stop_hook.py docs-\u2026",
+            "description": "Stage and commit the two changed files"
+          },
+          "caller": {
+            "type": "direct"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1,
+        "cache_creation_input_tokens": 2398,
+        "cache_read_input_tokens": 32968,
+        "output_tokens": 206,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 2398
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard"
+      }
+    },
+    "requestId": "req_011CYykQVpJ4z2HvyHTg9dFc",
+    "type": "assistant",
+    "uuid": "74763dee-9dcc-457b-80d8-09037280bb2e",
+    "timestamp": "2026-03-12T19:36:49.242Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "glittery-conjuring-bee"
+  },
+  {
+    "parentUuid": "3322d216-79e2-4191-b739-8c782d83cd6f",
+    "isSidechain": false,
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01DQ3GpTSSNUNqRYBacqshTU",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Committed as `ba4efa2`."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1,
+        "cache_creation_input_tokens": 370,
+        "cache_read_input_tokens": 35366,
+        "output_tokens": 13,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 370
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard"
+      }
+    },
+    "requestId": "req_011CYykRCW2RqRKJ5rHk2MyK",
+    "type": "assistant",
+    "uuid": "4f61f9ff-ebc6-44ab-a3a1-b892e3563fc5",
+    "timestamp": "2026-03-12T19:36:56.248Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "glittery-conjuring-bee"
   }
 ]
