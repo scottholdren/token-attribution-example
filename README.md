@@ -1,6 +1,6 @@
 # Token Attribution for Claude Code
 
-Automatically annotate every `git commit` with the Claude token usage and estimated cost from your Claude Code session — without changing your workflow.
+Automatically annotate every `git commit` with the Claude token usage and estimated cost from your Claude Code session - without changing your workflow.
 
 **[View the docs & live demo →](https://scottholdren.github.io/token-attribution-example/)**
 
@@ -97,12 +97,25 @@ git show --stat HEAD   # should include .claude-audit/log.json
 cat .claude-audit/log.json
 ```
 
+## Multi-developer teams
+
+`log.json` is a JSON array, so concurrent commits from different developers would normally cause merge conflicts. A custom git merge driver handles this automatically - it unions the two arrays by commit hash and sorts by timestamp, so merges always succeed cleanly.
+
+### Setup (each developer runs once)
+
+```bash
+git config merge.claude-audit-merge.name "Claude audit log merge driver"
+git config merge.claude-audit-merge.driver "python3 .claude/merge-audit-log.py %O %A %B"
+```
+
+The `.gitattributes` file in this repo tells git to use this driver for `log.json` - but the driver itself must be registered locally since git doesn't auto-trust merge drivers from repos. Each developer needs to run those two `git config` lines after cloning.
+
 ## Visualizing your data
 
 The [docs site](https://scottholdren.github.io/token-attribution-example/) has two visualization modes:
 
-- **Sample data** — pre-loaded with 15 realistic commits so you can explore the charts immediately
-- **Upload your own** — drag and drop your `.claude-audit/log.json` to visualize your project's token spend
+- **Sample data** - pre-loaded with 15 realistic commits so you can explore the charts immediately
+- **Upload your own** - drag and drop your `.claude-audit/log.json` to visualize your project's token spend
 
 ### Run the docs site locally
 
@@ -131,7 +144,9 @@ Adjust the rates in `stop_hook.py` if you're using a different model.
 .claude/
   hooks/
     stop_hook.py          # Claude Code Stop hook
+  merge-audit-log.py      # Git merge driver (multi-developer support)
   settings.json           # Hook registration
+.gitattributes            # Points log.json at the merge driver
 .claude-audit/
   log.json                # Accumulated audit log (git-tracked)
 docs-site/                # Vite + React visualization site
