@@ -7,7 +7,7 @@ export interface TokenCounts {
 
 export interface ClaudeAttribution {
   session_id: string
-  response_id?: string
+  last_response_id?: string
   model: string | null
   git_branch: string | null
   tokens: TokenCounts

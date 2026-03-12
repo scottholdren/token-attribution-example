@@ -25,27 +25,41 @@ const SETTINGS_JSON = `{
 const STOP_HOOK_PY = `#!/usr/bin/env python3
 """
 Claude Code Stop hook.
-Reads session data from stdin, parses the transcript JSONL,
-sums token usage for all assistant responses not yet written to a temp file,
-writes the result to a temp file, then amends the most recent commit
-so the commit that triggered this session captures its own cost.
+At the end of each response, sums all transcript responses not yet counted,
+then updates or creates a log entry for the current feature commit and
+creates a new audit commit. No temp files - the log is the source of truth.
 """
 
 import json
 import subprocess
 import sys
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 
 
-def unlogged_tokens(transcript_path: str, session_id: str) -> dict:
-    fields = ["input_tokens", "output_tokens",
-              "cache_creation_input_tokens", "cache_read_input_tokens"]
-    totals = {f: 0 for f in fields}
-    last_obj = None
+COST_PER_M = {
+    "input": 3.00,
+    "output": 15.00,
+    "cache_read": 0.30,
+    "cache_creation": 3.75,
+}
 
+
+def compute_cost(tokens: dict) -> float:
+    return round(
+        (tokens["input"]          / 1_000_000) * COST_PER_M["input"] +
+        (tokens["output"]         / 1_000_000) * COST_PER_M["output"] +
+        (tokens["cache_read"]     / 1_000_000) * COST_PER_M["cache_read"] +
+        (tokens["cache_creation"] / 1_000_000) * COST_PER_M["cache_creation"],
+        6,
+    )
+
+
+def read_transcript(path: str) -> list[dict]:
+    """Return all assistant messages with usage data, in transcript order."""
+    responses = []
     try:
-        with open(transcript_path) as f:
+        with open(path) as f:
             for line in f:
                 line = line.strip()
                 if not line:
@@ -54,29 +68,50 @@ def unlogged_tokens(transcript_path: str, session_id: str) -> dict:
                     obj = json.loads(line)
                 except json.JSONDecodeError:
                     continue
-
                 if obj.get("type") == "assistant" and obj.get("message", {}).get("usage"):
-                    response_id = obj.get("uuid")
-                    if response_id:
-                        stem = Path(f"/tmp/claude-audit-{session_id}-{response_id}")
-                        if stem.with_suffix(".json").exists() or stem.with_suffix(".done").exists():
-                            continue
-
-                    usage = obj["message"]["usage"]
-                    for f in fields:
-                        totals[f] += usage.get(f) or 0
-                    last_obj = obj
+                    responses.append(obj)
     except FileNotFoundError:
         pass
+    return responses
 
-    if not last_obj:
-        return totals | {"model": None, "git_branch": None, "response_id": None}
 
-    msg = last_obj.get("message", {})
-    return totals | {
-        "model": msg.get("model"),
-        "git_branch": last_obj.get("gitBranch"),
-        "response_id": last_obj.get("uuid"),
+def sum_tokens(responses: list[dict]) -> dict:
+    totals = {"input": 0, "output": 0, "cache_creation": 0, "cache_read": 0}
+    for obj in responses:
+        u = obj["message"]["usage"]
+        totals["input"]          += u.get("input_tokens") or 0
+        totals["output"]         += u.get("output_tokens") or 0
+        totals["cache_creation"] += u.get("cache_creation_input_tokens") or 0
+        totals["cache_read"]     += u.get("cache_read_input_tokens") or 0
+    return totals
+
+
+def git(cmd: list[str], cwd: str) -> str:
+    return subprocess.run(cmd, capture_output=True, text=True, cwd=cwd).stdout.strip()
+
+
+def feature_commit(repo_root: str) -> str | None:
+    """Most recent non-audit commit hash."""
+    for line in git(["git", "log", "--format=%H %s", "-20"], repo_root).splitlines():
+        h, _, subject = line.partition(" ")
+        if not subject.startswith("audit:"):
+            return h
+    return None
+
+
+def commit_metadata(hash_: str, repo_root: str) -> dict:
+    ts, msg, author = git(
+        ["git", "log", "-1", "--format=%aI\\t%s\\t%an", hash_], repo_root
+    ).split("\\t", 2)
+    files = git(
+        ["git", "diff-tree", "--no-commit-id", "-r", "--name-only", hash_], repo_root
+    ).splitlines()
+    return {
+        "commit": hash_,
+        "timestamp": ts,
+        "message": msg,
+        "author": author,
+        "files_changed": [f for f in files if f],
     }
 
 
@@ -84,7 +119,6 @@ def main():
     raw = sys.stdin.read().strip()
     if not raw:
         sys.exit(0)
-
     try:
         hook_input = json.loads(raw)
     except json.JSONDecodeError:
@@ -96,162 +130,82 @@ def main():
     if not transcript_path or not Path(transcript_path).exists():
         sys.exit(0)
 
-    token_data = unlogged_tokens(transcript_path, session_id)
+    result = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        capture_output=True, text=True,
+    )
+    if result.returncode != 0:
+        sys.exit(0)
+    repo_root = result.stdout.strip()
 
-    # Estimate cost using Claude Sonnet 4.6 pricing
-    # input: $3/MTok, output: $15/MTok,
-    # cache_read: $0.30/MTok, cache_write: $3.75/MTok
-    input_cost  = (token_data["input_tokens"] / 1_000_000) * 3.00
-    output_cost = (token_data["output_tokens"] / 1_000_000) * 15.00
-    cache_read  = (token_data["cache_read_input_tokens"] / 1_000_000) * 0.30
-    cache_write = (token_data["cache_creation_input_tokens"] / 1_000_000) * 3.75
-    cost_usd    = round(input_cost + output_cost + cache_read + cache_write, 6)
-
-    response_id = token_data["response_id"] or session_id
-
-    payload = {
-        "session_id": session_id,
-        "response_id": response_id,
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "transcript_path": transcript_path,
-        "model": token_data["model"],
-        "git_branch": token_data["git_branch"],
-        "tokens": {
-            "input": token_data["input_tokens"],
-            "output": token_data["output_tokens"],
-            "cache_creation": token_data["cache_creation_input_tokens"],
-            "cache_read": token_data["cache_read_input_tokens"],
-        },
-        "cost_usd": cost_usd,
-    }
-
-    tmp_path = Path(f"/tmp/claude-audit-{session_id}-{response_id}.json")
-    tmp_path.write_text(json.dumps(payload, indent=2))
-
-    # Amend the most recent commit to include these tokens.
-    # This ensures the commit that triggered this session captures its own
-    # cost, even when Claude ran the commit mid-response.
-    try:
-        repo_root = subprocess.run(
-            ["git", "rev-parse", "--show-toplevel"],
-            capture_output=True, text=True, check=True,
-        ).stdout.strip()
-        post_commit = Path(repo_root) / ".git" / "hooks" / "post-commit"
-        if post_commit.exists():
-            subprocess.run(["python3", str(post_commit)], cwd=repo_root, check=False)
-    except (subprocess.CalledProcessError, OSError):
-        pass  # not in a git repo, or hook missing - skip silently
-
-
-if __name__ == "__main__":
-    main()`
-
-const POST_COMMIT = `#!/usr/bin/env python3
-"""
-Git post-commit hook.
-Finds Claude Code session temp files written in the last 30 minutes,
-merges them with the current commit data, appends to .claude-audit/log.json,
-stages the log file, and amends the commit to include it.
-"""
-
-import json
-import os
-import subprocess
-import sys
-from datetime import datetime, timezone, timedelta
-from pathlib import Path
-
-AUDIT_LOG = Path(".claude-audit/log.json")
-TMP_DIR = Path("/tmp")
-SESSION_GLOB = "claude-audit-*.json"
-SESSION_MAX_AGE_MINUTES = 30
-
-
-def run(cmd: list[str], check=True) -> str:
-    result = subprocess.run(cmd, capture_output=True, text=True, check=check)
-    return result.stdout.strip()
-
-
-def get_commit_data() -> dict:
-    commit_hash = run(["git", "rev-parse", "HEAD"])
-    commit_msg  = run(["git", "log", "-1", "--pretty=%s"])
-    files_changed = run(["git", "diff-tree", "--no-commit-id", "-r", "--name-only", "HEAD"])
-    author    = run(["git", "log", "-1", "--pretty=%an"])
-    timestamp = run(["git", "log", "-1", "--pretty=%aI"])
-    return {
-        "commit": commit_hash,
-        "timestamp": timestamp,
-        "message": commit_msg,
-        "author": author,
-        "files_changed": [f for f in files_changed.splitlines() if f],
-    }
-
-
-def find_recent_sessions() -> list[Path]:
-    cutoff = datetime.now(timezone.utc) - timedelta(minutes=SESSION_MAX_AGE_MINUTES)
-    sessions = []
-    for tmp_file in TMP_DIR.glob(SESSION_GLOB):
-        mtime = datetime.fromtimestamp(tmp_file.stat().st_mtime, tz=timezone.utc)
-        if mtime >= cutoff:
-            sessions.append(tmp_file)
-    return sessions
-
-
-def consume_session(tmp_file: Path) -> dict | None:
-    try:
-        data = json.loads(tmp_file.read_text())
-        tmp_file.rename(tmp_file.with_suffix(".done"))
-        return data
-    except (json.JSONDecodeError, OSError):
-        return None
-
-
-def load_log() -> list:
-    if not AUDIT_LOG.exists():
-        return []
-    try:
-        return json.loads(AUDIT_LOG.read_text())
-    except (json.JSONDecodeError, OSError):
-        return []
-
-
-def save_log(entries: list):
-    AUDIT_LOG.parent.mkdir(exist_ok=True)
-    AUDIT_LOG.write_text(json.dumps(entries, indent=2))
-
-
-def main():
-    sessions = find_recent_sessions()
-    if not sessions:
+    feature_hash = feature_commit(repo_root)
+    if not feature_hash:
         sys.exit(0)
 
-    commit_data = get_commit_data()
+    audit_log = Path(repo_root) / ".claude-audit" / "log.json"
+    try:
+        entries = json.loads(audit_log.read_text()) if audit_log.exists() else []
+    except (json.JSONDecodeError, OSError):
+        entries = []
 
-    # avoid infinite loop on audit-log amend
-    if commit_data["files_changed"] == [str(AUDIT_LOG)]:
+    # Find the high-water mark: last response UUID already logged for this session
+    last_logged_id = None
+    for entry in reversed(entries):
+        if entry.get("claude", {}).get("session_id") == session_id:
+            last_logged_id = entry["claude"].get("last_response_id")
+            break
+
+    all_responses = read_transcript(transcript_path)
+
+    if last_logged_id:
+        cutoff = next(
+            (i for i, r in enumerate(all_responses) if r.get("uuid") == last_logged_id),
+            -1,
+        )
+        new_responses = all_responses[cutoff + 1:]
+    else:
+        new_responses = all_responses
+
+    if not new_responses:
         sys.exit(0)
 
-    entries = load_log()
-    for tmp_file in sessions:
-        session = consume_session(tmp_file)
-        if not session:
-            continue
-        entry = {
-            **commit_data,
+    last = new_responses[-1]
+    new_tokens = sum_tokens(new_responses)
+
+    # Update existing entry for this commit, or create a new one
+    existing = next((e for e in entries if e.get("commit") == feature_hash), None)
+
+    if existing:
+        t = existing["claude"]["tokens"]
+        t["input"]          += new_tokens["input"]
+        t["output"]         += new_tokens["output"]
+        t["cache_creation"] += new_tokens["cache_creation"]
+        t["cache_read"]     += new_tokens["cache_read"]
+        existing["claude"]["cost_usd"] = compute_cost(t)
+        existing["claude"]["last_response_id"] = last.get("uuid")
+    else:
+        meta = commit_metadata(feature_hash, repo_root)
+        entries.append({
+            **meta,
             "claude": {
-                "session_id": session["session_id"],
-                "model": session["model"],
-                "git_branch": session["git_branch"],
-                "tokens": session["tokens"],
-                "cost_usd": session["cost_usd"],
-                "session_timestamp": session["timestamp"],
+                "session_id": session_id,
+                "model": last.get("message", {}).get("model"),
+                "git_branch": last.get("gitBranch"),
+                "tokens": new_tokens,
+                "cost_usd": compute_cost(new_tokens),
+                "session_timestamp": datetime.now(timezone.utc).isoformat(),
+                "last_response_id": last.get("uuid"),
             },
-        }
-        entries.append(entry)
+        })
 
-    save_log(entries)
-    run(["git", "add", str(AUDIT_LOG)])
-    run(["git", "commit", "--amend", "--no-edit", "--no-verify"])
+    audit_log.parent.mkdir(exist_ok=True)
+    audit_log.write_text(json.dumps(entries, indent=2))
+    subprocess.run(["git", "add", str(audit_log)], cwd=repo_root)
+    subprocess.run(
+        ["git", "commit", "--no-verify", "-m",
+         f"audit: update token attribution for {feature_hash[:7]}"],
+        cwd=repo_root,
+    )
 
 
 if __name__ == "__main__":
@@ -281,17 +235,17 @@ export function HomePage({ setPage }: HomePageProps) {
             {
               step: '1',
               title: 'Stop hook fires',
-              desc: 'When Claude Code finishes a response, the Stop hook sums token usage for all responses not yet written to a temp file and writes a JSON payload to /tmp.',
+              desc: 'When Claude Code finishes a response, the Stop hook reads the transcript JSONL and sums token usage for all responses not yet counted, using a stored high-water mark UUID to find only new responses.',
             },
             {
               step: '2',
-              title: 'Most recent commit amended',
-              desc: 'The Stop hook immediately calls the post-commit script, which appends the token data to .claude-audit/log.json and amends the most recent commit to include it.',
+              title: 'Log entry updated',
+              desc: 'The Stop hook finds the most recent non-audit commit and either creates a new log entry in .claude-audit/log.json or adds the new tokens to an existing one for that commit.',
             },
             {
               step: '3',
-              title: 'post-commit as a fallback',
-              desc: 'The post-commit hook also runs on every git commit, picking up any temp files that exist at that moment - ensuring nothing is missed if commits are run manually.',
+              title: 'Audit commit created',
+              desc: 'The Stop hook creates a new audit: commit containing the updated log. No temp files, no git amend - commit hashes stay stable and the log is always the source of truth.',
             },
           ].map(({ step, title, desc }) => (
             <div key={step} className="rounded-xl border border-slate-200 bg-white p-5">
@@ -339,30 +293,16 @@ export function HomePage({ setPage }: HomePageProps) {
           </div>
 
           <div>
-            <h3 className="mb-2 font-semibold text-slate-700">
-              Step 3 - Install the post-commit hook
-            </h3>
-            <p className="mb-2 text-sm text-slate-500">
-              Save this to{' '}
-              <code className="rounded bg-slate-100 px-1 font-mono text-slate-700">
-                .git/hooks/post-commit
-              </code>{' '}
-              and make it executable:{' '}
-              <code className="rounded bg-slate-100 px-1 font-mono text-slate-700">
-                chmod +x .git/hooks/post-commit
-              </code>
-            </p>
-            <CodeBlock language="python">{POST_COMMIT}</CodeBlock>
-          </div>
-
-          <div>
-            <h3 className="mb-2 font-semibold text-slate-700">Step 4 - Verify</h3>
+            <h3 className="mb-2 font-semibold text-slate-700">Step 3 - Verify</h3>
             <p className="text-sm text-slate-500">
-              Use Claude Code to make a change, then commit. Check that{' '}
+              Use Claude Code to make a change, then commit. After the response finishes, check
+              that{' '}
               <code className="rounded bg-slate-100 px-1 font-mono text-slate-700">
                 .claude-audit/log.json
               </code>{' '}
-              was created and the commit was amended to include it.
+              was created and a new{' '}
+              <code className="rounded bg-slate-100 px-1 font-mono text-slate-700">audit:</code>
+              {' '}commit appeared in your git log.
             </p>
           </div>
         </div>
@@ -383,7 +323,6 @@ export function HomePage({ setPage }: HomePageProps) {
   "files_changed": ["src/components/CartDrawer.tsx"],
   "claude": {
     "session_id": "sess-abc",
-    "response_id": "resp-xyz",
     "model": "claude-sonnet-4-6",
     "git_branch": "main",
     "tokens": {
@@ -393,7 +332,8 @@ export function HomePage({ setPage }: HomePageProps) {
       "cache_read": 24000
     },
     "cost_usd": 0.5687,
-    "session_timestamp": "2026-03-05T15:01:48+00:00"
+    "session_timestamp": "2026-03-05T15:01:48+00:00",
+    "last_response_id": "resp-xyz"
   }
 }`}</CodeBlock>
       </section>
