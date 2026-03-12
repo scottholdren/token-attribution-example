@@ -1,5 +1,101 @@
 [
   {
+    "parentUuid": "a2f54fa2-4b5e-4f2f-b04d-4dc92ccd2cc5",
+    "isSidechain": false,
+    "type": "assistant",
+    "uuid": "6178240f-5713-4574-ae79-2ebe5c127e62",
+    "timestamp": "2026-03-12T19:27:22.131Z",
+    "message": {
+      "id": "40d73309-b741-4235-b384-80b8a46b1d4c",
+      "container": null,
+      "model": "<synthetic>",
+      "role": "assistant",
+      "stop_reason": "stop_sequence",
+      "stop_sequence": "",
+      "type": "message",
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": null,
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": null,
+        "iterations": null,
+        "speed": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Not logged in \u00b7 Please run /login"
+        }
+      ],
+      "context_management": null
+    },
+    "error": "authentication_failed",
+    "isApiErrorMessage": true,
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+    "version": "2.1.74",
+    "gitBranch": "main"
+  },
+  {
+    "parentUuid": "ba9f6936-c040-4efb-87bc-db171050bb24",
+    "isSidechain": false,
+    "type": "assistant",
+    "uuid": "d13fde44-1b31-472b-976e-2320c7cac404",
+    "timestamp": "2026-03-12T19:28:19.726Z",
+    "message": {
+      "id": "351d6941-370d-4d3f-bdbe-4973b3b9da08",
+      "container": null,
+      "model": "<synthetic>",
+      "role": "assistant",
+      "stop_reason": "stop_sequence",
+      "stop_sequence": "",
+      "type": "message",
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": null,
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": null,
+        "iterations": null,
+        "speed": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "There's an issue with the selected model\u2026"
+        }
+      ],
+      "context_management": null
+    },
+    "error": "invalid_request",
+    "isApiErrorMessage": true,
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+    "version": "2.1.74",
+    "gitBranch": "main"
+  },
+  {
     "parentUuid": "90c56d5a-9c10-4209-b4a4-395f07c6d1ec",
     "isSidechain": false,
     "type": "assistant",
@@ -46,5 +142,368 @@
     "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
     "version": "2.1.74",
     "gitBranch": "main"
+  },
+  {
+    "parentUuid": "f115c283-126c-43c9-8270-a381685f8224",
+    "isSidechain": false,
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01QZ2ASHGiUbrHfYfm5Qph6K",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "",
+          "signature": "EuADCkYICxgCKkBCQ5F38oUmDiIlNW+w9JmJX6Ly\u2026"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 3,
+        "cache_creation_input_tokens": 8000,
+        "cache_read_input_tokens": 6445,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 8000,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      }
+    },
+    "requestId": "req_011CYyjpCczBCww9QmeppaTf",
+    "type": "assistant",
+    "uuid": "a55ed369-f58a-4611-b26d-9bec3961c030",
+    "timestamp": "2026-03-12T19:29:02.578Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+    "version": "2.1.74",
+    "gitBranch": "main"
+  },
+  {
+    "parentUuid": "a55ed369-f58a-4611-b26d-9bec3961c030",
+    "isSidechain": false,
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01QZ2ASHGiUbrHfYfm5Qph6K",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Let me look at the current stop hook and\u2026"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 3,
+        "cache_creation_input_tokens": 8000,
+        "cache_read_input_tokens": 6445,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 8000,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      }
+    },
+    "requestId": "req_011CYyjpCczBCww9QmeppaTf",
+    "type": "assistant",
+    "uuid": "9ffa5114-00bb-46f3-935d-49e0af2bc864",
+    "timestamp": "2026-03-12T19:29:03.339Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+    "version": "2.1.74",
+    "gitBranch": "main"
+  },
+  {
+    "parentUuid": "9ffa5114-00bb-46f3-935d-49e0af2bc864",
+    "isSidechain": false,
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01QZ2ASHGiUbrHfYfm5Qph6K",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_01SHLSGLeLrxdQN4cPAjHHUS",
+          "name": "Read",
+          "input": {
+            "file_path": "/mnt/c/dev/token-attribution-example/.cl\u2026"
+          },
+          "caller": {
+            "type": "direct"
+          }
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 3,
+        "cache_creation_input_tokens": 8000,
+        "cache_read_input_tokens": 6445,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 8000,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      }
+    },
+    "requestId": "req_011CYyjpCczBCww9QmeppaTf",
+    "type": "assistant",
+    "uuid": "53a4a6f9-6347-47fe-bb87-dd664174e08e",
+    "timestamp": "2026-03-12T19:29:03.735Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "glittery-conjuring-bee"
+  },
+  {
+    "parentUuid": "b9cf6476-d95c-4423-949b-2928f1c77704",
+    "isSidechain": false,
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01QZ2ASHGiUbrHfYfm5Qph6K",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_01MfikUft3Yzkmz1hgyxk765",
+          "name": "Read",
+          "input": {
+            "file_path": "/mnt/c/dev/token-attribution-example/.cl\u2026",
+            "limit": 30
+          },
+          "caller": {
+            "type": "direct"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 3,
+        "cache_creation_input_tokens": 8000,
+        "cache_read_input_tokens": 6445,
+        "output_tokens": 255,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 8000
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard"
+      }
+    },
+    "requestId": "req_011CYyjpCczBCww9QmeppaTf",
+    "type": "assistant",
+    "uuid": "93690f9f-371e-4b73-a59c-327f5b793774",
+    "timestamp": "2026-03-12T19:29:03.997Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "glittery-conjuring-bee"
+  },
+  {
+    "parentUuid": "e7917138-de18-48ab-b695-f4b36865e5e3",
+    "isSidechain": false,
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01GoeP69RfrsAZb8LgeyrN6B",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "",
+          "signature": "EtobCkYICxgCKkBvumM3CDnkJSd4xpUd+0U0Bls0\u2026"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1,
+        "cache_creation_input_tokens": 4008,
+        "cache_read_input_tokens": 14445,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 4008,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      }
+    },
+    "requestId": "req_011CYyjpsnBsvpad69N67Ryp",
+    "type": "assistant",
+    "uuid": "4be93c9f-af23-48f9-9bd1-4984f815cb67",
+    "timestamp": "2026-03-12T19:29:27.820Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "glittery-conjuring-bee"
+  },
+  {
+    "parentUuid": "4be93c9f-af23-48f9-9bd1-4984f815cb67",
+    "isSidechain": false,
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01GoeP69RfrsAZb8LgeyrN6B",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "The stop hook already has `truncate_valu\u2026"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1,
+        "cache_creation_input_tokens": 4008,
+        "cache_read_input_tokens": 14445,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 4008,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      }
+    },
+    "requestId": "req_011CYyjpsnBsvpad69N67Ryp",
+    "type": "assistant",
+    "uuid": "af9951f6-7ca7-4f9d-bd0d-90dd27ec6f02",
+    "timestamp": "2026-03-12T19:29:28.775Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "glittery-conjuring-bee"
+  },
+  {
+    "parentUuid": "af9951f6-7ca7-4f9d-bd0d-90dd27ec6f02",
+    "isSidechain": false,
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01GoeP69RfrsAZb8LgeyrN6B",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_01Tg79W2YForuHr1onLQjfWj",
+          "name": "Edit",
+          "input": {
+            "replace_all": false,
+            "file_path": "/mnt/c/dev/token-attribution-example/.cl\u2026",
+            "old_string": "    # Dump new responses (truncated) for\u2026",
+            "new_string": "    # Dump all responses (truncated) for\u2026"
+          },
+          "caller": {
+            "type": "direct"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1,
+        "cache_creation_input_tokens": 4008,
+        "cache_read_input_tokens": 14445,
+        "output_tokens": 1203,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 4008
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard"
+      }
+    },
+    "requestId": "req_011CYyjpsnBsvpad69N67Ryp",
+    "type": "assistant",
+    "uuid": "bd645b7e-585b-4dc3-8417-4ff8a11d67b6",
+    "timestamp": "2026-03-12T19:29:30.823Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "glittery-conjuring-bee"
+  },
+  {
+    "parentUuid": "8d3a208f-4968-4732-a66d-c5de01a57719",
+    "isSidechain": false,
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01G7cJrzYZqusXwomzR6AQZ1",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Changed `new_responses` to `all_response\u2026"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1,
+        "cache_creation_input_tokens": 1255,
+        "cache_read_input_tokens": 18453,
+        "output_tokens": 62,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 1255
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard"
+      }
+    },
+    "requestId": "req_011CYyjtEG5HNQHr4TCQQCWx",
+    "type": "assistant",
+    "uuid": "565152ba-8a30-4dcd-8e54-28f6765197d7",
+    "timestamp": "2026-03-12T19:29:56.886Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "glittery-conjuring-bee"
   }
 ]
