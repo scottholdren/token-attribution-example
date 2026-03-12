@@ -21,5 +21,27 @@
       "cost_usd": 0.062226,
       "session_timestamp": "2026-03-12T19:38:34.571934+00:00"
     }
+  },
+  {
+    "commit": "33ffab94f795bf3b6c450dad3a7ab1d193301d73",
+    "timestamp": "2026-03-12T15:39:17-04:00",
+    "message": "docs: note direct Anthropic API in sample page description",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "docs-site/src/pages/SamplePage.tsx"
+    ],
+    "claude": {
+      "session_id": "194d599c-79b1-4758-a0e4-26e9302d1a9b",
+      "model": "claude-sonnet-4-6",
+      "git_branch": "main",
+      "tokens": {
+        "input": 10,
+        "output": 486,
+        "cache_creation": 1812,
+        "cache_read": 146027
+      },
+      "cost_usd": 0.057923,
+      "session_timestamp": "2026-03-12T19:39:23.476893+00:00"
+    }
   }
 ]
