@@ -1,1 +1,178 @@
-[]
+[
+  {
+    "commit": "61cb0e40852d78b17a149eba39ef4190535d6d75",
+    "timestamp": "2026-03-12T11:24:56-04:00",
+    "message": "feat: add docs-site \u2014 Vite + React visualization of token attribution data",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "docs-site/.gitignore",
+      "docs-site/index.html",
+      "docs-site/package-lock.json",
+      "docs-site/package.json",
+      "docs-site/postcss.config.js",
+      "docs-site/src/App.tsx",
+      "docs-site/src/components/CodeBlock.tsx",
+      "docs-site/src/components/Dashboard.tsx",
+      "docs-site/src/components/DropZone.tsx",
+      "docs-site/src/components/RawDataTable.tsx",
+      "docs-site/src/components/SiteNav.tsx",
+      "docs-site/src/components/charts/CostOverTimeChart.tsx",
+      "docs-site/src/components/charts/CostPerCommitChart.tsx",
+      "docs-site/src/data/sample-log.json",
+      "docs-site/src/index.css",
+      "docs-site/src/main.tsx",
+      "docs-site/src/pages/HomePage.tsx",
+      "docs-site/src/pages/SamplePage.tsx",
+      "docs-site/src/pages/UploadPage.tsx",
+      "docs-site/src/types/audit.ts",
+      "docs-site/tailwind.config.ts",
+      "docs-site/tsconfig.json",
+      "docs-site/vite.config.ts"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 1,
+        "output": 376,
+        "cache_creation": 861,
+        "cache_read": 27253
+      },
+      "cost_usd": 0.017048,
+      "session_timestamp": "2026-03-12T15:13:06.986294+00:00"
+    }
+  },
+  {
+    "commit": "61cb0e40852d78b17a149eba39ef4190535d6d75",
+    "timestamp": "2026-03-12T11:24:56-04:00",
+    "message": "feat: add docs-site \u2014 Vite + React visualization of token attribution data",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "docs-site/.gitignore",
+      "docs-site/index.html",
+      "docs-site/package-lock.json",
+      "docs-site/package.json",
+      "docs-site/postcss.config.js",
+      "docs-site/src/App.tsx",
+      "docs-site/src/components/CodeBlock.tsx",
+      "docs-site/src/components/Dashboard.tsx",
+      "docs-site/src/components/DropZone.tsx",
+      "docs-site/src/components/RawDataTable.tsx",
+      "docs-site/src/components/SiteNav.tsx",
+      "docs-site/src/components/charts/CostOverTimeChart.tsx",
+      "docs-site/src/components/charts/CostPerCommitChart.tsx",
+      "docs-site/src/data/sample-log.json",
+      "docs-site/src/index.css",
+      "docs-site/src/main.tsx",
+      "docs-site/src/pages/HomePage.tsx",
+      "docs-site/src/pages/SamplePage.tsx",
+      "docs-site/src/pages/UploadPage.tsx",
+      "docs-site/src/types/audit.ts",
+      "docs-site/tailwind.config.ts",
+      "docs-site/tsconfig.json",
+      "docs-site/vite.config.ts"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 1,
+        "output": 70,
+        "cache_creation": 1281,
+        "cache_read": 49439
+      },
+      "cost_usd": 0.020688,
+      "session_timestamp": "2026-03-12T15:20:51.906468+00:00"
+    }
+  },
+  {
+    "commit": "61cb0e40852d78b17a149eba39ef4190535d6d75",
+    "timestamp": "2026-03-12T11:24:56-04:00",
+    "message": "feat: add docs-site \u2014 Vite + React visualization of token attribution data",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "docs-site/.gitignore",
+      "docs-site/index.html",
+      "docs-site/package-lock.json",
+      "docs-site/package.json",
+      "docs-site/postcss.config.js",
+      "docs-site/src/App.tsx",
+      "docs-site/src/components/CodeBlock.tsx",
+      "docs-site/src/components/Dashboard.tsx",
+      "docs-site/src/components/DropZone.tsx",
+      "docs-site/src/components/RawDataTable.tsx",
+      "docs-site/src/components/SiteNav.tsx",
+      "docs-site/src/components/charts/CostOverTimeChart.tsx",
+      "docs-site/src/components/charts/CostPerCommitChart.tsx",
+      "docs-site/src/data/sample-log.json",
+      "docs-site/src/index.css",
+      "docs-site/src/main.tsx",
+      "docs-site/src/pages/HomePage.tsx",
+      "docs-site/src/pages/SamplePage.tsx",
+      "docs-site/src/pages/UploadPage.tsx",
+      "docs-site/src/types/audit.ts",
+      "docs-site/tailwind.config.ts",
+      "docs-site/tsconfig.json",
+      "docs-site/vite.config.ts"
+    ],
+    "claude": {
+      "session_id": "989a570c-21b5-4603-9872-e3297f571a6d",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 1,
+        "output": 93,
+        "cache_creation": 770,
+        "cache_read": 50891
+      },
+      "cost_usd": 0.019553,
+      "session_timestamp": "2026-03-12T15:02:32.288465+00:00"
+    }
+  },
+  {
+    "commit": "61cb0e40852d78b17a149eba39ef4190535d6d75",
+    "timestamp": "2026-03-12T11:24:56-04:00",
+    "message": "feat: add docs-site \u2014 Vite + React visualization of token attribution data",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "docs-site/.gitignore",
+      "docs-site/index.html",
+      "docs-site/package-lock.json",
+      "docs-site/package.json",
+      "docs-site/postcss.config.js",
+      "docs-site/src/App.tsx",
+      "docs-site/src/components/CodeBlock.tsx",
+      "docs-site/src/components/Dashboard.tsx",
+      "docs-site/src/components/DropZone.tsx",
+      "docs-site/src/components/RawDataTable.tsx",
+      "docs-site/src/components/SiteNav.tsx",
+      "docs-site/src/components/charts/CostOverTimeChart.tsx",
+      "docs-site/src/components/charts/CostPerCommitChart.tsx",
+      "docs-site/src/data/sample-log.json",
+      "docs-site/src/index.css",
+      "docs-site/src/main.tsx",
+      "docs-site/src/pages/HomePage.tsx",
+      "docs-site/src/pages/SamplePage.tsx",
+      "docs-site/src/pages/UploadPage.tsx",
+      "docs-site/src/types/audit.ts",
+      "docs-site/tailwind.config.ts",
+      "docs-site/tsconfig.json",
+      "docs-site/vite.config.ts"
+    ],
+    "claude": {
+      "session_id": "989a570c-21b5-4603-9872-e3297f571a6d",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 1,
+        "output": 96,
+        "cache_creation": 2187,
+        "cache_read": 53222
+      },
+      "cost_usd": 0.025611,
+      "session_timestamp": "2026-03-12T15:05:04.360966+00:00"
+    }
+  }
+]
