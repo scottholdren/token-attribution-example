@@ -153,5 +153,30 @@
       "cost_usd": 0.0816,
       "session_timestamp": "2026-03-12T17:47:56.128002+00:00"
     }
+  },
+  {
+    "commit": "64c3df4427b45bf199a2ca78abdeb2d96e70adcf",
+    "timestamp": "2026-03-12T14:01:01-04:00",
+    "message": "docs: update homepage and types for temp-file-free stop hook",
+    "author": "Scott Holdren",
+    "files_changed": [
+      ".claude/hooks/post-commit",
+      "docs-site/src/pages/HomePage.tsx",
+      "docs-site/src/types/audit.ts"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 556,
+        "output": 104602,
+        "cache_creation": 4886747,
+        "cache_read": 12530328
+      },
+      "cost_usd": 23.655098,
+      "session_timestamp": "2026-03-12T18:01:18.544615+00:00",
+      "last_response_id": "60aaf7fa-9b56-421d-badb-308ed9fd60b9"
+    }
   }
 ]
