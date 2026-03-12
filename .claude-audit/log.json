@@ -66,5 +66,27 @@
       "cost_usd": 0.431867,
       "session_timestamp": "2026-03-12T18:38:23.959885+00:00"
     }
+  },
+  {
+    "commit": "a5c71f7628a7f98a2fe91aca6d4b0b7869cb14d7",
+    "timestamp": "2026-03-12T15:16:08-04:00",
+    "message": "feat: dump new responses to audit dir for inspection",
+    "author": "Scott Holdren",
+    "files_changed": [
+      ".claude/hooks/stop_hook.py"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 16,
+        "output": 2205,
+        "cache_creation": 0,
+        "cache_read": 189240
+      },
+      "cost_usd": 0.089895,
+      "session_timestamp": "2026-03-12T19:16:15.864005+00:00"
+    }
   }
 ]

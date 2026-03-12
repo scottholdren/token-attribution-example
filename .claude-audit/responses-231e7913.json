@@ -1,0 +1,624 @@
+[
+  {
+    "parentUuid": "2db9903f-ca3a-4d3f-b747-45b96d852b20",
+    "isSidechain": false,
+    "message": {
+      "id": "gen-1773342890-zlGmavxQ4lJCpsIrspEs",
+      "type": "message",
+      "role": "assistant",
+      "container": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "I'll add response logging to the stop ho\u2026",
+          "citations": null
+        }
+      ],
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "stop_reason": null,
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "cache_creation": null,
+        "inference_geo": null,
+        "server_tool_use": null,
+        "service_tier": null
+      },
+      "provider": "Google"
+    },
+    "type": "assistant",
+    "uuid": "a1e8b60d-b15c-42d6-b697-32a531b7f766",
+    "timestamp": "2026-03-12T19:15:11.893Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "231e7913-6253-43f3-9beb-087b0add6d5b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "rippling-seeking-corbato"
+  },
+  {
+    "parentUuid": "a1e8b60d-b15c-42d6-b697-32a531b7f766",
+    "isSidechain": false,
+    "message": {
+      "id": "gen-1773342890-zlGmavxQ4lJCpsIrspEs",
+      "type": "message",
+      "role": "assistant",
+      "container": null,
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to make a small change\u2026",
+          "signature": "Ep4gCkgICxACGAIqQFzSKUw3c1DOjYxsr9yUsgci\u2026"
+        }
+      ],
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "stop_reason": null,
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "cache_creation": null,
+        "inference_geo": null,
+        "server_tool_use": null,
+        "service_tier": null
+      },
+      "provider": "Google"
+    },
+    "type": "assistant",
+    "uuid": "960ccd14-19cd-47a8-bc88-da583731db73",
+    "timestamp": "2026-03-12T19:15:11.894Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "231e7913-6253-43f3-9beb-087b0add6d5b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "rippling-seeking-corbato"
+  },
+  {
+    "parentUuid": "960ccd14-19cd-47a8-bc88-da583731db73",
+    "isSidechain": false,
+    "message": {
+      "id": "gen-1773342890-zlGmavxQ4lJCpsIrspEs",
+      "type": "message",
+      "role": "assistant",
+      "container": null,
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_vrtx_01UFpJVHv12jcvR9Joz8r1G2",
+          "caller": {
+            "type": "direct"
+          },
+          "name": "Read",
+          "input": {
+            "file_path": "/mnt/c/dev/token-attribution-example/.cl\u2026"
+          }
+        }
+      ],
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "stop_reason": null,
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "cache_creation": null,
+        "inference_geo": null,
+        "server_tool_use": null,
+        "service_tier": null
+      },
+      "provider": "Google"
+    },
+    "type": "assistant",
+    "uuid": "57da2625-f9cc-405c-8325-bb41a1114bd3",
+    "timestamp": "2026-03-12T19:15:11.894Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "231e7913-6253-43f3-9beb-087b0add6d5b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "rippling-seeking-corbato"
+  },
+  {
+    "parentUuid": "57da2625-f9cc-405c-8325-bb41a1114bd3",
+    "isSidechain": false,
+    "message": {
+      "id": "gen-1773342890-zlGmavxQ4lJCpsIrspEs",
+      "type": "message",
+      "role": "assistant",
+      "container": null,
+      "content": [
+        {
+          "type": "redacted_thinking",
+          "data": "openrouter.reasoning:eyJzaWduYXR1cmUiOiJ\u2026"
+        }
+      ],
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 21658,
+        "cache_read_input_tokens": 17921,
+        "output_tokens": 1146,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard"
+      },
+      "provider": "Google"
+    },
+    "type": "assistant",
+    "uuid": "2a7a54c7-dec2-4219-8c0f-8d1a41d531f0",
+    "timestamp": "2026-03-12T19:15:11.896Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "231e7913-6253-43f3-9beb-087b0add6d5b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "rippling-seeking-corbato"
+  },
+  {
+    "parentUuid": "08e8d8f2-d5bb-43c5-862c-e4829cbb1bc9",
+    "isSidechain": false,
+    "message": {
+      "id": "gen-1773342912-FWy2kqE1GoPyPFZV85PD",
+      "type": "message",
+      "role": "assistant",
+      "container": null,
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_vrtx_01SxTKN7YE9tj86yiQ9yJ3Wu",
+          "caller": {
+            "type": "direct"
+          },
+          "name": "Edit",
+          "input": {
+            "replace_all": false,
+            "file_path": "/mnt/c/dev/token-attribution-example/.cl\u2026",
+            "old_string": "def load_marks(marks_file: Path) -> dict\u2026",
+            "new_string": "def truncate_values(obj, max_len: int = \u2026"
+          }
+        }
+      ],
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1,
+        "cache_creation_input_tokens": 43594,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 271,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard"
+      },
+      "provider": "Google"
+    },
+    "type": "assistant",
+    "uuid": "1003e66b-14fe-4a5c-9570-e234653ab366",
+    "timestamp": "2026-03-12T19:15:16.789Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "231e7913-6253-43f3-9beb-087b0add6d5b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "rippling-seeking-corbato"
+  },
+  {
+    "parentUuid": "c58a3989-9844-437d-a3c5-b98490da4d72",
+    "isSidechain": false,
+    "message": {
+      "id": "gen-1773342944-oAbzGaA41jR8TA3tn7cI",
+      "type": "message",
+      "role": "assistant",
+      "container": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "Now add the response dump after computin\u2026",
+          "citations": null
+        }
+      ],
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "stop_reason": null,
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "cache_creation": null,
+        "inference_geo": null,
+        "server_tool_use": null,
+        "service_tier": null
+      },
+      "provider": "Google"
+    },
+    "type": "assistant",
+    "uuid": "7aa88de3-3af6-4918-a2e7-2a21319284a4",
+    "timestamp": "2026-03-12T19:15:48.311Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "231e7913-6253-43f3-9beb-087b0add6d5b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "rippling-seeking-corbato"
+  },
+  {
+    "parentUuid": "7aa88de3-3af6-4918-a2e7-2a21319284a4",
+    "isSidechain": false,
+    "message": {
+      "id": "gen-1773342944-oAbzGaA41jR8TA3tn7cI",
+      "type": "message",
+      "role": "assistant",
+      "container": null,
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_vrtx_018Bwj3xYBduNSgDYgZuDwCt",
+          "caller": {
+            "type": "direct"
+          },
+          "name": "Edit",
+          "input": {
+            "replace_all": false,
+            "file_path": "/mnt/c/dev/token-attribution-example/.cl\u2026",
+            "old_string": "    # Update existing entry for this com\u2026",
+            "new_string": "    # Dump new responses (truncated) for\u2026"
+          }
+        }
+      ],
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1,
+        "cache_creation_input_tokens": 4346,
+        "cache_read_input_tokens": 39579,
+        "output_tokens": 236,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard"
+      },
+      "provider": "Google"
+    },
+    "type": "assistant",
+    "uuid": "6a17a7b4-6a57-4a34-8cd6-3e136e7c05d2",
+    "timestamp": "2026-03-12T19:15:48.315Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "231e7913-6253-43f3-9beb-087b0add6d5b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "rippling-seeking-corbato"
+  },
+  {
+    "parentUuid": "67ae0de8-7864-4e96-8f24-be46cae3d53a",
+    "isSidechain": false,
+    "message": {
+      "id": "gen-1773342953-zG97KSNhdUUuNHeJHb78",
+      "type": "message",
+      "role": "assistant",
+      "container": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "Also need to add the responses file to t\u2026",
+          "citations": null
+        }
+      ],
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "stop_reason": null,
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "cache_creation": null,
+        "inference_geo": null,
+        "server_tool_use": null,
+        "service_tier": null
+      },
+      "provider": "Google"
+    },
+    "type": "assistant",
+    "uuid": "e3b2cf73-9443-4dcb-ba76-a06607c97434",
+    "timestamp": "2026-03-12T19:15:56.563Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "231e7913-6253-43f3-9beb-087b0add6d5b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "rippling-seeking-corbato"
+  },
+  {
+    "parentUuid": "e3b2cf73-9443-4dcb-ba76-a06607c97434",
+    "isSidechain": false,
+    "message": {
+      "id": "gen-1773342953-zG97KSNhdUUuNHeJHb78",
+      "type": "message",
+      "role": "assistant",
+      "container": null,
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_vrtx_011ieCGCmNrbq6FhHeutZpPp",
+          "caller": {
+            "type": "direct"
+          },
+          "name": "Edit",
+          "input": {
+            "replace_all": false,
+            "file_path": "/mnt/c/dev/token-attribution-example/.cl\u2026",
+            "old_string": "    subprocess.run([\"git\", \"add\", str(au\u2026",
+            "new_string": "    subprocess.run([\"git\", \"add\", str(au\u2026"
+          }
+        }
+      ],
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1,
+        "cache_creation_input_tokens": 296,
+        "cache_read_input_tokens": 43925,
+        "output_tokens": 209,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard"
+      },
+      "provider": "Google"
+    },
+    "type": "assistant",
+    "uuid": "90617578-fe5b-4a33-8948-c516a36103a8",
+    "timestamp": "2026-03-12T19:15:56.566Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "231e7913-6253-43f3-9beb-087b0add6d5b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "rippling-seeking-corbato"
+  },
+  {
+    "parentUuid": "099c381e-3746-478b-b81d-ac7bd7fbc41b",
+    "isSidechain": false,
+    "message": {
+      "id": "gen-1773342965-K6mQd6KwPwyDIOGNfZxA",
+      "type": "message",
+      "role": "assistant",
+      "container": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "Now commit to trigger the hook:",
+          "citations": null
+        }
+      ],
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "stop_reason": null,
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "cache_creation": null,
+        "inference_geo": null,
+        "server_tool_use": null,
+        "service_tier": null
+      },
+      "provider": "Google"
+    },
+    "type": "assistant",
+    "uuid": "82171bdd-86ae-492c-8597-20c2d86454b6",
+    "timestamp": "2026-03-12T19:16:07.818Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "231e7913-6253-43f3-9beb-087b0add6d5b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "rippling-seeking-corbato"
+  },
+  {
+    "parentUuid": "82171bdd-86ae-492c-8597-20c2d86454b6",
+    "isSidechain": false,
+    "message": {
+      "id": "gen-1773342965-K6mQd6KwPwyDIOGNfZxA",
+      "type": "message",
+      "role": "assistant",
+      "container": null,
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_vrtx_015WsvoT4PNt7JHadLtfC8oi",
+          "caller": {
+            "type": "direct"
+          },
+          "name": "Bash",
+          "input": {
+            "command": "git add .claude/hooks/stop_hook.py && gi\u2026",
+            "description": "Commit stop hook change to trigger audit"
+          }
+        }
+      ],
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1,
+        "cache_creation_input_tokens": 250,
+        "cache_read_input_tokens": 44221,
+        "output_tokens": 127,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard"
+      },
+      "provider": "Google"
+    },
+    "type": "assistant",
+    "uuid": "f1f18f2d-8b29-415c-aa8c-f89af0ac9d25",
+    "timestamp": "2026-03-12T19:16:07.819Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "231e7913-6253-43f3-9beb-087b0add6d5b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "rippling-seeking-corbato"
+  },
+  {
+    "parentUuid": "be6019a6-debb-4bd0-a0b7-7c2dada59476",
+    "isSidechain": false,
+    "message": {
+      "id": "gen-1773342968-APnAwa8rTCWOmtYEVEDH",
+      "type": "message",
+      "role": "assistant",
+      "container": null,
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_vrtx_01V7fQ9JPdH7Q2ryBTXCjEeA",
+          "caller": {
+            "type": "direct"
+          },
+          "name": "Bash",
+          "input": {
+            "command": "ls /mnt/c/dev/token-attribution-example/\u2026",
+            "description": "Check what the hook wrote to audit dir"
+          }
+        }
+      ],
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1,
+        "cache_creation_input_tokens": 1150,
+        "cache_read_input_tokens": 43594,
+        "output_tokens": 94,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard"
+      },
+      "provider": "Google"
+    },
+    "type": "assistant",
+    "uuid": "a54dc207-572e-42c3-b49c-7532fe8f956e",
+    "timestamp": "2026-03-12T19:16:10.468Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "231e7913-6253-43f3-9beb-087b0add6d5b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "rippling-seeking-corbato"
+  },
+  {
+    "parentUuid": "860f4b3b-03bf-47a9-85e5-1781abf678c1",
+    "isSidechain": false,
+    "message": {
+      "id": "gen-1773342970-XqwYtVPlOdjSKpBunjUr",
+      "type": "message",
+      "role": "assistant",
+      "container": null,
+      "content": [
+        {
+          "type": "text",
+          "text": "The hook hasn't fired yet (it fires at t\u2026",
+          "citations": null
+        }
+      ],
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1,
+        "cache_creation_input_tokens": 44859,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 122,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard"
+      },
+      "provider": "Google"
+    },
+    "type": "assistant",
+    "uuid": "3ab45b7b-db0f-421f-9c70-0a8297ca54f7",
+    "timestamp": "2026-03-12T19:16:15.630Z",
+    "userType": "external",
+    "cwd": "/mnt/c/dev/token-attribution-example",
+    "sessionId": "231e7913-6253-43f3-9beb-087b0add6d5b",
+    "version": "2.1.74",
+    "gitBranch": "main",
+    "slug": "rippling-seeking-corbato"
+  }
+]
