@@ -35,12 +35,12 @@
       "model": "claude-sonnet-4-6",
       "git_branch": "main",
       "tokens": {
-        "input": 10,
-        "output": 486,
-        "cache_creation": 1812,
-        "cache_read": 146027
+        "input": 15,
+        "output": 615,
+        "cache_creation": 2243,
+        "cache_read": 258211
       },
-      "cost_usd": 0.057923,
+      "cost_usd": 0.095145,
       "session_timestamp": "2026-03-12T19:39:23.476893+00:00"
     }
   }
