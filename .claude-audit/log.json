@@ -1,1 +1,25 @@
-[]
+[
+  {
+    "commit": "3dc6e9cba3d6f1eb93133778b20d16f3b654c3fc",
+    "timestamp": "2026-03-12T14:07:52-04:00",
+    "message": "chore: reset audit log",
+    "author": "Scott Holdren",
+    "files_changed": [
+      ".claude-audit/log.json"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 590,
+        "output": 111501,
+        "cache_creation": 5256914,
+        "cache_read": 13258281
+      },
+      "cost_usd": 25.365197,
+      "session_timestamp": "2026-03-12T18:08:02.302973+00:00",
+      "last_response_id": "65447346-8622-4381-83aa-1f4708788e9c"
+    }
+  }
+]
