@@ -7,6 +7,7 @@ and writes the result to a temp file for the post-commit hook.
 """
 
 import json
+import subprocess
 import sys
 from pathlib import Path
 from datetime import datetime, timezone
@@ -100,6 +101,20 @@ def main():
 
     tmp_path = Path(f"/tmp/claude-audit-{session_id}-{response_id}.json")
     tmp_path.write_text(json.dumps(payload, indent=2))
+
+    # Amend the most recent commit to include these tokens.
+    # This ensures the commit that triggered this session captures its own
+    # cost, even when Claude ran the commit mid-response.
+    try:
+        repo_root = subprocess.run(
+            ["git", "rev-parse", "--show-toplevel"],
+            capture_output=True, text=True, check=True,
+        ).stdout.strip()
+        post_commit = Path(repo_root) / ".git" / "hooks" / "post-commit"
+        if post_commit.exists():
+            subprocess.run(["python3", str(post_commit)], cwd=repo_root, check=False)
+    except (subprocess.CalledProcessError, OSError):
+        pass  # not in a git repo, or hook missing — skip silently
 
 
 if __name__ == "__main__":
