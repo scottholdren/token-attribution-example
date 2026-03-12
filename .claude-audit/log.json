@@ -312,5 +312,49 @@
       "cost_usd": 0.030482,
       "session_timestamp": "2026-03-12T15:56:00.612594+00:00"
     }
+  },
+  {
+    "commit": "aec90c49deadf1850d9422e1382453cc798d4df8",
+    "timestamp": "2026-03-12T12:31:18-04:00",
+    "message": "fix: sum all unlogged responses instead of just the last one",
+    "author": "Scott Holdren",
+    "files_changed": [
+      ".claude/hooks/stop_hook.py"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 1,
+        "output": 277,
+        "cache_creation": 84690,
+        "cache_read": 0
+      },
+      "cost_usd": 0.321746,
+      "session_timestamp": "2026-03-12T16:25:27.338710+00:00"
+    }
+  },
+  {
+    "commit": "aec90c49deadf1850d9422e1382453cc798d4df8",
+    "timestamp": "2026-03-12T12:31:18-04:00",
+    "message": "fix: sum all unlogged responses instead of just the last one",
+    "author": "Scott Holdren",
+    "files_changed": [
+      ".claude/hooks/stop_hook.py"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 1,
+        "output": 926,
+        "cache_creation": 4991,
+        "cache_read": 84163
+      },
+      "cost_usd": 0.057858,
+      "session_timestamp": "2026-03-12T16:28:41.699066+00:00"
+    }
   }
 ]
