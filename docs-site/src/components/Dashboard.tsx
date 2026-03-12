@@ -16,6 +16,12 @@ function StatCard({ label, value }: { label: string; value: string }) {
   )
 }
 
+function fmtTokens(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(n >= 10_000_000 ? 0 : 1)}M`
+  if (n >= 1_000) return `${(n / 1_000).toFixed(n >= 10_000 ? 0 : 1)}k`
+  return n.toString()
+}
+
 function ChartCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-6">
@@ -48,21 +54,18 @@ export function Dashboard({ entries }: DashboardProps) {
           label="Most Expensive"
           value={`$${maxEntry?.claude.cost_usd.toFixed(4) ?? '-'}`}
         />
-        <StatCard
-          label="Total Tokens"
-          value={`${(totalTokens / 1000).toFixed(1)}k`}
-        />
+        <StatCard label="Total Tokens" value={fmtTokens(totalTokens)} />
         <StatCard
           label="Input Tokens"
-          value={`${(entries.reduce((s, e) => s + e.claude.tokens.input, 0) / 1000).toFixed(1)}k`}
+          value={fmtTokens(entries.reduce((s, e) => s + e.claude.tokens.input, 0))}
         />
         <StatCard
           label="Output Tokens"
-          value={`${(entries.reduce((s, e) => s + e.claude.tokens.output, 0) / 1000).toFixed(1)}k`}
+          value={fmtTokens(entries.reduce((s, e) => s + e.claude.tokens.output, 0))}
         />
         <StatCard
           label="Cache Read"
-          value={`${(entries.reduce((s, e) => s + e.claude.tokens.cache_read, 0) / 1000).toFixed(1)}k`}
+          value={fmtTokens(entries.reduce((s, e) => s + e.claude.tokens.cache_read, 0))}
         />
       </div>
 
