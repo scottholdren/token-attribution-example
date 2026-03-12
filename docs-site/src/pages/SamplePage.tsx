@@ -10,7 +10,7 @@ export function SamplePage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900">Sample Data</h1>
         <p className="mt-2 text-slate-500">
-          15 realistic commits from a shopping cart feature built with Claude Code over two weeks. Costs and token counts reflect real usage patterns.
+          15 realistic commits from a shopping cart feature built with Claude Code over two weeks. Token counts and costs reflect real usage patterns from direct Anthropic API calls.
         </p>
       </div>
       <Dashboard entries={entries} />
