@@ -20,5 +20,27 @@
       "cost_usd": 0.088502,
       "session_timestamp": "2026-03-12T18:11:43.391909+00:00"
     }
+  },
+  {
+    "commit": "ac486eda8d97d2f1cc7a3dc224283c8a04e31997",
+    "timestamp": "2026-03-12T14:13:39-04:00",
+    "message": "docs: expand sample page description",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "docs-site/src/pages/SamplePage.tsx"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 14,
+        "output": 559,
+        "cache_creation": 175251,
+        "cache_read": 242150
+      },
+      "cost_usd": 0.738263,
+      "session_timestamp": "2026-03-12T18:13:44.484840+00:00"
+    }
   }
 ]
