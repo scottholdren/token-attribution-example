@@ -58,10 +58,16 @@ def sum_tokens(responses: list[dict]) -> dict:
     totals = {"input": 0, "output": 0, "cache_creation": 0, "cache_read": 0}
     for obj in responses:
         u = obj["message"]["usage"]
-        totals["input"]          += u.get("input_tokens") or 0
-        totals["output"]         += u.get("output_tokens") or 0
-        totals["cache_creation"] += u.get("cache_creation_input_tokens") or 0
-        totals["cache_read"]     += u.get("cache_read_input_tokens") or 0
+        totals["input"]  += u.get("input_tokens") or 0
+        totals["output"] += u.get("output_tokens") or 0
+        totals["cache_read"] += u.get("cache_read_input_tokens") or 0
+        # Prefer the nested ephemeral breakdown (accurate when routing via OpenRouter).
+        # Fall back to the top-level field only when the nested object is absent,
+        # which is the case for direct Anthropic API calls.
+        nested = u.get("cache_creation") or {}
+        eph = (nested.get("ephemeral_1h_input_tokens") or 0) + \
+              (nested.get("ephemeral_5m_input_tokens") or 0)
+        totals["cache_creation"] += eph if nested else (u.get("cache_creation_input_tokens") or 0)
     return totals
 
 
