@@ -65,5 +65,93 @@
       "cost_usd": 4.468267,
       "session_timestamp": "2026-03-12T17:13:38.040017+00:00"
     }
+  },
+  {
+    "commit": "855ca478971636b0596a5beaeebbc3bf6399b065",
+    "timestamp": "2026-03-12T13:57:44-04:00",
+    "message": "refactor: stop hook is sole writer, no temp files needed",
+    "author": "Scott Holdren",
+    "files_changed": [
+      ".claude/hooks/stop_hook.py"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 18,
+        "output": 8801,
+        "cache_creation": 568145,
+        "cache_read": 763597
+      },
+      "cost_usd": 2.491692,
+      "session_timestamp": "2026-03-12T17:42:01.556258+00:00"
+    }
+  },
+  {
+    "commit": "855ca478971636b0596a5beaeebbc3bf6399b065",
+    "timestamp": "2026-03-12T13:57:44-04:00",
+    "message": "refactor: stop hook is sole writer, no temp files needed",
+    "author": "Scott Holdren",
+    "files_changed": [
+      ".claude/hooks/stop_hook.py"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 12,
+        "output": 656,
+        "cache_creation": 1330,
+        "cache_read": 463058
+      },
+      "cost_usd": 0.153781,
+      "session_timestamp": "2026-03-12T17:46:31.228792+00:00"
+    }
+  },
+  {
+    "commit": "855ca478971636b0596a5beaeebbc3bf6399b065",
+    "timestamp": "2026-03-12T13:57:44-04:00",
+    "message": "refactor: stop hook is sole writer, no temp files needed",
+    "author": "Scott Holdren",
+    "files_changed": [
+      ".claude/hooks/stop_hook.py"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 20,
+        "output": 2439,
+        "cache_creation": 299803,
+        "cache_read": 21334
+      },
+      "cost_usd": 1.167306,
+      "session_timestamp": "2026-03-12T17:51:40.050104+00:00"
+    }
+  },
+  {
+    "commit": "855ca478971636b0596a5beaeebbc3bf6399b065",
+    "timestamp": "2026-03-12T13:57:44-04:00",
+    "message": "refactor: stop hook is sole writer, no temp files needed",
+    "author": "Scott Holdren",
+    "files_changed": [
+      ".claude/hooks/stop_hook.py"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 1,
+        "output": 1745,
+        "cache_creation": 2341,
+        "cache_read": 155479
+      },
+      "cost_usd": 0.0816,
+      "session_timestamp": "2026-03-12T17:47:56.128002+00:00"
+    }
   }
 ]
