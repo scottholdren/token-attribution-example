@@ -58,12 +58,12 @@
       "model": "anthropic/claude-4.6-sonnet-20260217",
       "git_branch": "main",
       "tokens": {
-        "input": 13,
-        "output": 458,
+        "input": 34,
+        "output": 17326,
         "cache_creation": 0,
-        "cache_read": 294797
+        "cache_read": 572917
       },
-      "cost_usd": 0.095348,
+      "cost_usd": 0.431867,
       "session_timestamp": "2026-03-12T18:38:23.959885+00:00"
     }
   }
