@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "commit": "ce9e6eef9981f16538b3844246e74747e42be7d1",
+    "timestamp": "2026-03-12T13:00:25-04:00",
+    "message": "docs: update homepage to reflect stop hook amending the most recent commit",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "docs-site/src/pages/HomePage.tsx"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 302,
+        "output": 44393,
+        "cache_creation": 2007184,
+        "cache_read": 6678728
+      },
+      "cost_usd": 10.197359,
+      "session_timestamp": "2026-03-12T17:01:27.862818+00:00"
+    }
+  }
+]
