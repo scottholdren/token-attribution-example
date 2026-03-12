@@ -22,5 +22,27 @@
       "cost_usd": 0.034776,
       "session_timestamp": "2026-03-12T18:24:44.879489+00:00"
     }
+  },
+  {
+    "commit": "7498c73d0a8eda4d0b6d7a7453cd3e1e75a9b9fa",
+    "timestamp": "2026-03-12T14:26:09-04:00",
+    "message": "docs: rename sample page heading",
+    "author": "Scott Holdren",
+    "files_changed": [
+      "docs-site/src/pages/SamplePage.tsx"
+    ],
+    "claude": {
+      "session_id": "231e7913-6253-43f3-9beb-087b0add6d5b",
+      "model": "anthropic/claude-4.6-sonnet-20260217",
+      "git_branch": "main",
+      "tokens": {
+        "input": 14,
+        "output": 551,
+        "cache_creation": 0,
+        "cache_read": 494485
+      },
+      "cost_usd": 0.156653,
+      "session_timestamp": "2026-03-12T18:26:13.265625+00:00"
+    }
   }
 ]
